@@ -1,29 +1,34 @@
 import { Action, getModule, Module, Mutation, VuexModule } from 'vuex-module-decorators';
 import store from '../index';
 
-@Module({ dynamic: true, namespaced: true, name: 'counter', store })
+@Module({ dynamic: true, namespaced: true, name: 'counterModule', store })
 class CounterModule extends VuexModule {
-    public count = 150;
+    private _count = 150;
 
-    @Mutation
-    public increment(delta: number): void {
-        this.count += delta;
+    public get count(): number {
+        return this._count;
+    }
+
+    // action 'increment' commits mutation '_increment' when done with return value as payload
+    @Action({ commit: '_increment' })
+    public async increment(delta: number): Promise<number> {
+        return delta;
+    }
+
+    // action 'decrement' commits mutation '_decrement' when done with return value as payload
+    @Action({ commit: '_decrement' })
+    public async decrement(delta: number): Promise<number> {
+        return delta;
     }
 
     @Mutation
-    public decrement(delta: number): void {
-        this.count -= delta;
+    private _increment(delta: number): void {
+        this._count += delta;
     }
 
-    // action '_increment' commits mutation 'increment' when done with return value as payload
-    @Action({ commit: 'increment' })
-    private _increment(): number {
-        return 5;
-    }
-    // action '_decrement' commits mutation 'decrement' when done with return value as payload
-    @Action({ commit: 'decrement' })
-    private _decrement(): number {
-        return 5;
+    @Mutation
+    private _decrement(delta: number): void {
+        this._count -= delta;
     }
 }
 

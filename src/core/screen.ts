@@ -50,11 +50,16 @@ export class Screen {
 
     public static create(size: ScreenSize = { width: 500, height: 600 }): Screen {
         validate.isTrue(
-            !this._screenInstance,
+            !Screen._screenInstance,
             () => 'Screen was already created. Only one instance is allowed!',
         );
 
-        return new Screen(size);
+        Screen._screenInstance = new Screen(size);
+        return Screen._screenInstance;
+    }
+
+    public static destroy(): void {
+        Screen._screenInstance = undefined;
     }
 
     private constructor(size: ScreenSize = { width: 500, height: 500 }) {
@@ -68,7 +73,7 @@ export class Screen {
 
         this.context = validate.notNull(this.canvas.getContext('2d'), () => '2D Context was null!');
 
-        const game = document.getElementById('game');
+        const game = this.gameElement;
         if (game) {
             game.appendChild(this.canvas);
         } else {
@@ -87,5 +92,12 @@ export class Screen {
      */
     public clear(): void {
         this.context.clearRect(0, 0, this.width, this.height);
+    }
+
+    /**
+     * Shortcut - gibt das entsprechende HTMLElement zurück
+     */
+    private get gameElement(): HTMLElement | null {
+        return document.getElementById('game');
     }
 }

@@ -12,6 +12,8 @@
         "test:unit": "vue-cli-service test:unit"
     },
     "dependencies": {
+        "@mmit/communication": "^0.10.18",
+        "@mmit/tdd": "^0.1.2",
         "@mmit/validate": "^0.2.13",
         "moment": "^2.24.0",
         "typescript-logging": "^0.6.3",
@@ -28,6 +30,7 @@
         "@vue/cli-plugin-unit-jest": "^3.5.3",
         "@vue/cli-service": "^3.5.3",
         "@vue/test-utils": "1.0.0-beta.29",
+        "jest-extended": "^0.11.1",
         "node-sass": "^4.11.0",
         "sass-loader": "^7.1.0",
         "ts-jest": "^24.0.2",

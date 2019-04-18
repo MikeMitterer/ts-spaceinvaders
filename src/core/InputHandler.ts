@@ -1,4 +1,5 @@
 import { loggerFactory } from '@/config/ConfigLog4j';
+import * as validate from '@mmit/validate';
 
 export enum KeyCode {
     Left = 37,
@@ -10,6 +11,9 @@ export enum KeyCode {
     Space = '32',
 }
 
+type OnStateChangeCallback = () => void;
+type OnKeyboardEventCallback = (event: KeyboardEvent) => void;
+
 export class InputHandler {
     private static _instance: InputHandler;
 
@@ -18,54 +22,32 @@ export class InputHandler {
     private readonly down = new Map<KeyCode, boolean>();
     private readonly pressed = new Map<KeyCode, boolean>();
 
-    private constructor() {}
+    private readonly stringToKeyCode = new Map<string, KeyCode>();
+
+    private constructor() {
+        this.stringToKeyCode.set('ArrowLeft', KeyCode.Left);
+        this.stringToKeyCode.set('ArrowRight', KeyCode.Right);
+        this.stringToKeyCode.set('ArrowUp', KeyCode.Up);
+        this.stringToKeyCode.set('ArrowDown', KeyCode.Down);
+        this.stringToKeyCode.set(' ', KeyCode.Space);
+    }
 
     public static get instance(): InputHandler {
-        if (!InputHandler._instance) {
-            return InputHandler.init();
-        }
+        validate.notNull(
+            InputHandler._instance,
+            () => 'InputHandler must be initialized before it can be used!',
+        );
         return InputHandler._instance;
     }
 
-    public static new(): InputHandler {
-        return InputHandler.instance;
-    }
-
-    public static init(): InputHandler {
-        if (InputHandler._instance !== undefined) {
-            return InputHandler._instance;
-        }
+    public static init(onStateChanged: OnStateChangeCallback): InputHandler {
+        validate.isTrue(!InputHandler._instance, () => 'Please call InputHandler#init only once!');
 
         InputHandler._instance = new InputHandler();
-
         const inputHandler = InputHandler._instance;
-        const mapStringToKeyCode = new Map<string, KeyCode>();
 
-        mapStringToKeyCode.set('ArrowLeft', KeyCode.Left);
-        mapStringToKeyCode.set('ArrowRight', KeyCode.Right);
-        mapStringToKeyCode.set('ArrowUp', KeyCode.Up);
-        mapStringToKeyCode.set('ArrowDown', KeyCode.Down);
-        mapStringToKeyCode.set(' ', KeyCode.Space);
-
-        window.addEventListener('keydown', (event: KeyboardEvent) => {
-            const key = mapStringToKeyCode.get(event.key);
-            if (key) {
-                inputHandler.logger.info(`KeyDown '${event.key}'`);
-
-                inputHandler.down.set(key, true);
-                inputHandler.pressed.set(key, true);
-            }
-        });
-
-        window.addEventListener('keyup', (event: KeyboardEvent) => {
-            const key = mapStringToKeyCode.get(event.key);
-            if (key) {
-                inputHandler.logger.info(`KeyUP '${event.key}'`);
-
-                inputHandler.down.set(key, false);
-                inputHandler.pressed.set(key, false);
-            }
-        });
+        window.addEventListener('keydown', inputHandler.onKeyDown(onStateChanged));
+        window.addEventListener('keyup', inputHandler.onKeyUp(onStateChanged));
 
         return inputHandler;
     }
@@ -90,4 +72,33 @@ export class InputHandler {
         }
         return false;
     }
+
+    private readonly onKeyDown = (onStateChanged: OnStateChangeCallback): OnKeyboardEventCallback => {
+        return (event: KeyboardEvent): void => {
+            const key = this.stringToKeyCode.get(event.key);
+
+            if (key) {
+                // this.logger.info(`KeyDown '${event.key}'`);
+
+                this.down.set(key, true);
+                this.pressed.set(key, true);
+
+                onStateChanged();
+            }
+        };
+    };
+
+    private readonly onKeyUp = (onStateChanged: OnStateChangeCallback): OnKeyboardEventCallback => {
+        return (event: KeyboardEvent): void => {
+            const key = this.stringToKeyCode.get(event.key);
+            if (key) {
+                // this.logger.info(`KeyUP '${event.key}'`);
+
+                this.down.set(key, false);
+                this.pressed.set(key, false);
+
+                onStateChanged();
+            }
+        };
+    };
 }
