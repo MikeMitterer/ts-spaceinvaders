@@ -1,6 +1,7 @@
 /**
  * [Sprite] represents the part of an [ImageElement] that can be drawn on the screen
  */
+
 export interface Sprite {
     /** Holds all the Sprites */
     readonly image: HTMLImageElement;
@@ -15,6 +16,8 @@ export interface Sprite {
  * "Normal" sprite. Graphic that can be displayed or moved on the screen (canvas)
  */
 export class SimpleSprite implements Sprite {
+    // private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.core.SimpleSprite');
+
     public readonly image: HTMLImageElement;
     public readonly x: number;
     public readonly y: number;
@@ -34,9 +37,11 @@ export class SimpleSprite implements Sprite {
  * This [Sprite] has two status - for example an [Alien] moving its arms up and down
  */
 export class ToggleSprite implements Sprite {
+    // private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.core.ToggleSprite');
+
     private activeSprite: 0 | 1 = 0;
 
-    private sprites: [Sprite, Sprite];
+    private sprites: readonly [Sprite, Sprite];
 
     constructor(sprites: [Sprite, Sprite]) {
         this.sprites = sprites;
@@ -60,5 +65,9 @@ export class ToggleSprite implements Sprite {
 
     get height(): number {
         return this.sprites[this.activeSprite].height;
+    }
+
+    public toggle(): void {
+        this.activeSprite = this.activeSprite === 1 ? 0 : 1;
     }
 }

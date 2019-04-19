@@ -4,6 +4,7 @@
  *     final Painter painter = screen.painter;
  *     spritefactory.tank.draw(painter);
  */
+import { Sprite } from '@/core/sprite';
 import * as validate from '@mmit/validate';
 import { Drawable } from './drawables';
 
@@ -20,30 +21,25 @@ export class Painter {
      * spritefactory.tank.draw(painter);
      *
      */
-    public draw(drawable: Drawable): void {
+    public draw(sprite: Sprite, drawable: Drawable): void {
         this.context.drawImage(
             // source
-            drawable.sprite.image,
-            drawable.sprite.x,
-            drawable.sprite.y,
-            drawable.sprite.width,
-            drawable.sprite.height,
+            sprite.image,
+            sprite.x,
+            sprite.y,
+            sprite.width,
+            sprite.height,
 
             // target
             drawable.x,
             drawable.y,
-            drawable.sprite.width,
-            drawable.sprite.height,
+            sprite.width,
+            sprite.height,
         );
     }
 
     public clear(drawable: Drawable): void {
-        this.context.clearRect(
-            drawable.x - 10,
-            drawable.y - 10,
-            drawable.width + 20,
-            drawable.height + 20,
-        );
+        this.context.clearRect(drawable.x - 10, drawable.y - 10, drawable.width + 20, drawable.height + 20);
     }
 
     public drawImage(imagePainter: ImagePainter, destX: number, destY: number): void {

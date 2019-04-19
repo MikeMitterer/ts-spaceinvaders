@@ -1,9 +1,12 @@
 {
     "compilerOptions": {
+        "strict": true,
+        "incremental": true,
+
         "target": "es6",
         "module": "esnext",
-        "strict": true,
         "jsx": "preserve",
+
         "importHelpers": true,
         "moduleResolution": "node",
         "experimentalDecorators": true,

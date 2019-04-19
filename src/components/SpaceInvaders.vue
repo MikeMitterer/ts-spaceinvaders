@@ -13,38 +13,51 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class SpaceInvaders extends Vue {
-    private static readonly spriteFactory = new SpriteFactory();
-
     private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.components.SpaceInvaders');
-    private readonly actionBus = ActionBus.getInstance();
 
-    private timer: number | undefined;
+    private readonly actionBus = ActionBus.getInstance();
+    private readonly spriteFactory = SpriteFactory.getInstance();
+
+    private animationTimer: number | undefined;
 
     public mounted(): void {
         this.logger.info('Mounted!');
 
-        if (this.timer) {
-            clearInterval(this.timer);
+        if (this.animationTimer) {
+            clearInterval(this.animationTimer);
         }
-        this.timer = setTimeout(this.onMount, 500);
+
+        setTimeout(this.onMount, 500);
+        this.animationTimer = setInterval(this.onAnimation, 500);
+
         this.actionBus.on(KeyChangedEvent.EVENT, this.onKeyChanged);
     }
 
     public destroyed(): void {
         this.logger.info('Destroyed!');
 
-        if (this.timer) {
-            clearInterval(this.timer);
-            this.timer = undefined;
+        if (this.animationTimer) {
+            clearInterval(this.animationTimer);
+            this.animationTimer = undefined;
         }
 
         Screen.destroy();
         this.actionBus.removeListenerFor(KeyChangedEvent.EVENT);
     }
 
+    private readonly onAnimation = (): void => {
+        const screen = Screen.getInstance();
+        const swarm = this.spriteFactory.swarm;
+
+        swarm.toggle();
+
+        swarm.clear(screen.painter);
+        swarm.draw(screen.painter);
+    };
+
     private readonly onKeyChanged = async (eventName: EventName, payload: string): Promise<void> => {
         const screen = Screen.getInstance();
-        const tank = SpaceInvaders.spriteFactory.tank;
+        const tank = this.spriteFactory.tank;
 
         this.logger.debug(`Received ${eventName.eventName}`);
 
@@ -61,14 +74,20 @@ export default class SpaceInvaders extends Vue {
     };
 
     private readonly onMount = (): void => {
-        const tank = SpaceInvaders.spriteFactory.tank;
-        const screen = Screen.create();
+        const tank = this.spriteFactory.tank;
+        const swarm = this.spriteFactory.swarm;
 
-        this.logger.info(`onMount`);
+        const screen = Screen.getInstance();
+
+        swarm.width = screen.width;
+        tank.y = screen.height - tank.height;
+
         screen.clear();
 
         tank.clear(screen.painter);
+
         tank.draw(screen.painter);
+        swarm.draw(screen.painter);
     };
 }
 </script>

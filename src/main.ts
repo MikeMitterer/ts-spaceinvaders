@@ -9,6 +9,7 @@ import store from './store';
 
 Vue.config.productionTip = false;
 
+// prettier-ignore
 new Vue({
     router,
     store,

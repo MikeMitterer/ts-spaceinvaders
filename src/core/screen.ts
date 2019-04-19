@@ -32,11 +32,11 @@ export interface ScreenSize {
 export class Screen {
     private static _screenInstance: Screen | undefined;
 
-    private readonly width: number;
-    private readonly height: number;
-
     private readonly canvas: HTMLCanvasElement;
     private readonly context: CanvasRenderingContext2D;
+
+    public readonly width: number;
+    public readonly height: number;
 
     /** Every [ScreenObject] draws on this [Painter] */
     public readonly painter: Painter;
