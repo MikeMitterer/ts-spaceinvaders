@@ -14,8 +14,13 @@ export enum KeyCode {
 type OnStateChangeCallback = () => void;
 type OnKeyboardEventCallback = (event: KeyboardEvent) => void;
 
+enum Events {
+    KeyUp = 'keyup',
+    KeyDown = 'keydown',
+}
+
 export class InputHandler {
-    private static _instance: InputHandler;
+    private static _instance: InputHandler | undefined;
 
     private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.core.InputHandler');
 
@@ -24,6 +29,12 @@ export class InputHandler {
 
     private readonly stringToKeyCode = new Map<string, KeyCode>();
 
+    private onKeyUpCallback?: OnKeyboardEventCallback;
+    private onKeyDownCallback?: OnKeyboardEventCallback;
+
+    /**
+     * remember the callbacks - maybe we need it in [[reset]]
+     */
     private constructor() {
         this.stringToKeyCode.set('ArrowLeft', KeyCode.Left);
         this.stringToKeyCode.set('ArrowRight', KeyCode.Right);
@@ -32,12 +43,11 @@ export class InputHandler {
         this.stringToKeyCode.set(' ', KeyCode.Space);
     }
 
-    public static get instance(): InputHandler {
-        validate.notNull(
+    public static get instance(): InputHandler | never {
+        return validate.notNull(
             InputHandler._instance,
             () => 'InputHandler must be initialized before it can be used!',
         );
-        return InputHandler._instance;
     }
 
     public static init(onStateChanged: OnStateChangeCallback): InputHandler {
@@ -46,10 +56,30 @@ export class InputHandler {
         InputHandler._instance = new InputHandler();
         const inputHandler = InputHandler._instance;
 
-        window.addEventListener('keydown', inputHandler.onKeyDown(onStateChanged));
-        window.addEventListener('keyup', inputHandler.onKeyUp(onStateChanged));
+        inputHandler.onKeyDownCallback = inputHandler.onKeyDown(onStateChanged);
+        inputHandler.onKeyUpCallback = inputHandler.onKeyUp(onStateChanged);
+
+        window.addEventListener(Events.KeyDown, inputHandler.onKeyDownCallback);
+        window.addEventListener(Events.KeyUp, inputHandler.onKeyUpCallback);
 
         return inputHandler;
+    }
+
+    /**
+     * Cleanup EventListeners and sets the instance to undefined
+     */
+    public static reset(): void {
+        const inputHandler = InputHandler._instance;
+
+        if (inputHandler && inputHandler.onKeyDownCallback && inputHandler.onKeyUpCallback) {
+            window.removeEventListener(Events.KeyDown, inputHandler.onKeyDownCallback);
+            window.removeEventListener(Events.KeyUp, inputHandler.onKeyUpCallback);
+
+            // Just to make sure everything is undefined and can be destroyed by the GC
+            inputHandler.onKeyDownCallback = undefined;
+            inputHandler.onKeyUpCallback = undefined;
+        }
+        InputHandler._instance = undefined;
     }
 
     /** Always returns the current [KeyCode] status */

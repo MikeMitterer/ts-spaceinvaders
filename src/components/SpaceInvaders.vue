@@ -4,18 +4,17 @@
 
 <script lang="ts">
 import { loggerFactory } from '@/config/ConfigLog4j';
-import { KeyChangedEvent } from '@/core/events/KeyChangedEvent';
 import { InputHandler, KeyCode } from '@/core/InputHandler';
 import { Screen } from '@/core/screen';
 import { SpriteFactory } from '@/core/SpriteFactory';
-import { ActionBus, EventName } from '@mmit/communication/lib/actionbus';
+// import { ActionBus } from '@mmit/communication/lib/actionbus';
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class SpaceInvaders extends Vue {
     private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.components.SpaceInvaders');
 
-    private readonly actionBus = ActionBus.getInstance();
+    // private readonly actionBus = ActionBus.getInstance();
     private readonly spriteFactory = SpriteFactory.getInstance();
 
     private animationTimer: number | undefined;
@@ -30,7 +29,9 @@ export default class SpaceInvaders extends Vue {
         setTimeout(this.onMount, 500);
         this.animationTimer = setInterval(this.onAnimation, 500);
 
-        this.actionBus.on(KeyChangedEvent.EVENT, this.onKeyChanged);
+        InputHandler.init(this.onKeyChanged);
+
+        // this.actionBus.on(KeyChangedEvent.EVENT, this.onKeyChanged);
     }
 
     public destroyed(): void {
@@ -41,8 +42,10 @@ export default class SpaceInvaders extends Vue {
             this.animationTimer = undefined;
         }
 
+        InputHandler.reset();
         Screen.destroy();
-        this.actionBus.removeListenerFor(KeyChangedEvent.EVENT);
+
+        // this.actionBus.removeListenerFor(KeyChangedEvent.EVENT);
     }
 
     private readonly onAnimation = (): void => {
@@ -55,11 +58,12 @@ export default class SpaceInvaders extends Vue {
         swarm.draw(screen.painter);
     };
 
-    private readonly onKeyChanged = async (eventName: EventName, payload: string): Promise<void> => {
+    // private readonly onKeyChanged = async (eventName: EventName, payload: string): Promise<void> => {
+    private readonly onKeyChanged = async (): Promise<void> => {
         const screen = Screen.getInstance();
         const tank = this.spriteFactory.tank;
 
-        this.logger.debug(`Received ${eventName.eventName}`);
+        this.logger.debug(`onKeyChanged`);
 
         if (InputHandler.isDown(KeyCode.Left)) {
             this.logger.debug(`Move Left`);
