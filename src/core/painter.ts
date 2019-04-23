@@ -45,6 +45,14 @@ export class Painter {
     public drawImage(imagePainter: ImagePainter, destX: number, destY: number): void {
         this.context.drawImage(imagePainter.canvas, destX, destY);
     }
+
+    public save(): void {
+        this.context.save();
+    }
+
+    public restore(): void {
+        this.context.restore();
+    }
 }
 
 /**
@@ -75,8 +83,8 @@ export class Painter {
 export class ImagePainter extends Painter {
     public readonly canvas: HTMLCanvasElement;
 
-    public static create(width: number, height: number): Painter {
-        const canvas = new HTMLCanvasElement();
+    public static create(width: number, height: number): ImagePainter {
+        const canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
 

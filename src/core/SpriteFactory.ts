@@ -1,6 +1,6 @@
 // import invaders from "../assets/images/invaders.png";
 import invaders from '@/assets/images/invaders.png';
-import { Alien, Swarm, Tank } from '@/core/drawables';
+import { Alien, Cities, City, Swarm, Tank } from '@/core/drawables';
 import { SimpleSprite, ToggleSprite } from '@/core/sprite';
 import * as validate from '@mmit/validate';
 
@@ -21,6 +21,7 @@ export class SpriteFactory {
 
     private _tank?: Tank;
     private _swarm?: Swarm;
+    private _cities?: Cities;
 
     private constructor() {
         this.image = document.createElement('img');
@@ -66,6 +67,13 @@ export class SpriteFactory {
         return this._swarm;
     }
 
+    public get cities(): Cities {
+        if (!this._cities) {
+            this._cities = new Cities(this.createCities());
+        }
+        return this._cities;
+    }
+
     private createAliens(): readonly Alien[] {
         const aliens: Alien[] = [];
 
@@ -96,5 +104,15 @@ export class SpriteFactory {
         }
 
         return aliens;
+    }
+
+    private createCities(): readonly City[] {
+        const cities: City[] = [];
+
+        [1, 2, 3, 4].forEach((_) => {
+            cities.push(new City(new SimpleSprite(this.image, 84, 8, 36, 24)));
+        });
+
+        return cities;
     }
 }

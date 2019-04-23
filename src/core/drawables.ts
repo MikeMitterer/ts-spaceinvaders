@@ -3,7 +3,8 @@
  */
 import { loggerFactory } from '@/config/ConfigLog4j';
 import NoMoreAliensException from '@/core/exeptions/NoMoreAliensException';
-import { Painter } from '@/core/painter';
+import { ImagePainter, Painter } from '@/core/painter';
+import { Screen } from '@/core/screen';
 import { Point } from '@/core/shapes/Point';
 import { Rectangle } from '@/core/shapes/Rectangle';
 import { Sprite, ToggleSprite } from '@/core/sprite';
@@ -117,7 +118,7 @@ abstract class VerticalMovableScreenObject extends ScreenObject implements MoveV
     }
 }
 
-/** Kind of a [[ScreenObject]] but can be move up, down, left and right by the user */
+/** Kind of a [[ScreenObject]] but can be move up, down, x and right by the user */
 abstract class MovableScreenObject extends VerticalMovableScreenObject implements MoveHorizontale {
     public moveLeft(options: MoveOptions = { speed: 1 }): void {
         this.x -= options.speed;
@@ -128,7 +129,7 @@ abstract class MovableScreenObject extends VerticalMovableScreenObject implement
     }
 }
 
-/** The Tank can move left and right and shoots the [Alien]s */
+/** The Tank can move x and right and shoots the [Alien]s */
 export class Tank extends MovableScreenObject {
     public hits: number = 0;
 
@@ -179,8 +180,8 @@ export class Swarm implements Drawable, MoveHorizontale, MoveVertical {
 
     private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.core.Swarm');
 
-    private _y: number = 0;
     private _x: number = 0;
+    private _y: number = 0;
     private _width: number = 0;
     private _height: number = 0;
 
@@ -329,5 +330,141 @@ export class Swarm implements Drawable, MoveHorizontale, MoveVertical {
 
     private get moveHeight(): number {
         return this.aliens[0].height;
+    }
+}
+
+/**
+ * Bullet fired either by an [Alien] or by the [[Tank]].
+ * A [[Magazin]] is used to hold the [[Bullet]]s
+ */
+class Bullet extends ScreenObject implements MoveVertical {
+    public velocity = 10;
+
+    constructor(sprite: Sprite) {
+        super(sprite);
+    }
+
+    public moveDown(options: MoveOptions = { speed: 1 }): void {
+        this.y += options.speed;
+    }
+
+    public moveUp(options: MoveOptions = { speed: 1 }): void {
+        this.y -= options.speed;
+    }
+
+    public move(): void {
+        this.moveUp({ speed: this.velocity });
+    }
+}
+
+/**
+ * City can be destroyed by [[Alien]]
+ */
+export class City extends ScreenObject {
+    constructor(sprite: Sprite) {
+        super(sprite);
+    }
+}
+
+export class Cities implements Drawable {
+    private _width: number = 0;
+
+    private readonly imagePainter: ImagePainter;
+
+    public x: number = 0;
+    public y: number = 0;
+
+    public readonly height: number = 0;
+
+    public buildCycle = 0;
+
+    constructor(private readonly cities: readonly City[]) {
+        this.width = Screen.getInstance().width;
+        this.height = cities[0].height;
+
+        this.imagePainter = ImagePainter.create(this._width, this.height);
+    }
+
+    get length(): number {
+        return this.cities.length;
+    }
+
+    public get width(): number {
+        return this._width;
+    }
+
+    public set width(value: number) {
+        this._width = value;
+        this.updateCityPosition();
+    }
+
+    public clear(painter: Painter): void {
+        painter.clear(this);
+    }
+
+    public draw(painter: Painter): void {
+        if (this.buildCycle < 5) {
+            painter.save();
+
+            this.cities.forEach((city: City) => {
+                city.draw(this.imagePainter);
+            });
+
+            painter.restore();
+            this.buildCycle++;
+        }
+
+        painter.drawImage(this.imagePainter, 0, this.y);
+    }
+
+    // Create damage effect on city-canvas
+    public damage(x: number, y: number): void {
+        // round x, y position
+        x = Math.round(x);
+        y = Math.round(y);
+
+        // draw damage effect to canvas
+        this.imagePainter.clearRect(x - 2, y - 2, 4, 4);
+        this.imagePainter.clearRect(x + 2, y - 4, 2, 4);
+        this.imagePainter.clearRect(x + 4, y, 2, 2);
+        this.imagePainter.clearRect(x + 2, y + 2, 2, 2);
+        this.imagePainter.clearRect(x - 4, y + 2, 2, 2);
+        this.imagePainter.clearRect(x - 6, y, 2, 2);
+        this.imagePainter.clearRect(x - 4, y - 4, 2, 2);
+        this.imagePainter.clearRect(x - 2, y - 6, 2, 2);
+
+        // final ScreenSize size = (new Screen()).size;
+        //
+        // _context.setStrokeColorRgb(0,255,0);
+        // _context.rect(x,y,6,6);
+        // _context.stroke();
+    }
+
+    public isCityHit(bullet: Bullet): boolean {
+        const canvasOffset = this.y;
+        const rectBullet = new Rectangle(bullet.x, bullet.y, bullet.width, Math.round(bullet.height / 2));
+
+        for (const city of this.cities) {
+            const rectCity = new Rectangle(city.x, city.y + canvasOffset, city.width, city.height);
+            if (rectCity.intersects(rectBullet)) {
+                const data = this.imagePainter.getImageData(bullet.y, bullet.y - canvasOffset, 1, 1);
+                if (data.data[3] !== 0) {
+                    this.damage(bullet.x, bullet.y - canvasOffset);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private updateCityPosition(): void {
+        // Every city has its on "section" or column
+        const section = Math.round(this.width / this.cities.length);
+        const cityYPos = 0;
+
+        for (let cityIndex = 0; cityIndex < this.cities.length; cityIndex++) {
+            this.cities[cityIndex].x = section * (cityIndex + 1) - Math.round(section / 2);
+            this.cities[cityIndex].y = cityYPos;
+        }
     }
 }

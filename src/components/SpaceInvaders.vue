@@ -80,18 +80,21 @@ export default class SpaceInvaders extends Vue {
     private readonly onMount = (): void => {
         const tank = this.spriteFactory.tank;
         const swarm = this.spriteFactory.swarm;
+        const cities = this.spriteFactory.cities;
 
         const screen = Screen.getInstance();
 
         swarm.width = screen.width;
         tank.y = screen.height - tank.height;
+        cities.y = tank.y - cities.height * 2;
 
         screen.clear();
 
         tank.clear(screen.painter);
 
-        tank.draw(screen.painter);
         swarm.draw(screen.painter);
+        cities.draw(screen.painter);
+        tank.draw(screen.painter);
     };
 }
 </script>
