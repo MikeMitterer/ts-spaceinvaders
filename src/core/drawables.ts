@@ -22,6 +22,8 @@ export interface Drawable {
     width: number;
     height: number;
 
+    rect: Rectangle;
+
     clear(painter: Painter): void;
     draw(painter: Painter): void;
 }
@@ -102,8 +104,8 @@ abstract class ScreenObject implements Drawable {
     }
 
     /** Collision detection */
-    public collidesWith(so: ScreenObject): boolean {
-        return this.rect.intersects(so.rect);
+    public collidesWith(drawable: Drawable): boolean {
+        return this.rect.intersects(drawable.rect);
     }
 }
 
@@ -151,7 +153,7 @@ export class Alien extends ScreenObject {
     }
 
     public draw(painter: Painter): void {
-        if (!this.killed) {
+        if (this.IsAlive) {
             super.draw(painter);
         }
     }
@@ -221,12 +223,16 @@ export class Swarm implements Drawable, MoveHorizontale, MoveVertical {
         return this._height;
     }
 
+    public get rect(): Rectangle {
+        return new Rectangle(this.x, this.y, this.width, this.height);
+    }
+
     public clear(painter: Painter): void {
         painter.clear(this);
     }
 
     public draw(painter: Painter): void {
-        this.aliens.forEach((alien: Alien) => painter.draw(alien.sprite, alien));
+        this.aliens.forEach((alien: Alien) => alien.draw(painter));
     }
 
     public toggle(): void {
@@ -396,6 +402,10 @@ export class Cities implements Drawable {
     public set width(value: number) {
         this._width = value;
         this.updateCityPosition();
+    }
+
+    public get rect(): Rectangle {
+        return new Rectangle(this.x, this.y, this.width, this.height);
     }
 
     public clear(painter: Painter): void {

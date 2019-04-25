@@ -3,6 +3,7 @@
 </template>
 
 <script lang="ts">
+import { run } from '@/app/gameloop';
 import { loggerFactory } from '@/config/ConfigLog4j';
 import { InputHandler, KeyCode } from '@/core/InputHandler';
 import { Screen } from '@/core/screen';
@@ -26,10 +27,15 @@ export default class SpaceInvaders extends Vue {
             clearInterval(this.animationTimer);
         }
 
-        setTimeout(this.onMount, 500);
-        this.animationTimer = setInterval(this.onAnimation, 500);
+        // setTimeout(this.onMount, 500);
+        // this.animationTimer = setInterval(this.onAnimation, 500);
 
-        InputHandler.init(this.onKeyChanged);
+        // InputHandler.init(this.onKeyChanged);
+        InputHandler.init(() => {
+            this.logger.debug('KeyChanged');
+        });
+
+        setTimeout(run, 500);
 
         // this.actionBus.on(KeyChangedEvent.EVENT, this.onKeyChanged);
     }

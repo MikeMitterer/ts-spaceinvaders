@@ -1,3 +1,4 @@
+import { loggerFactory } from '@/config/ConfigLog4j';
 import { Alien, Bullet, Cities, Tank } from '@/core/drawables';
 import { Painter } from '@/core/painter';
 import { Rectangle } from '@/core/shapes/Rectangle';
@@ -8,10 +9,18 @@ enum Continue {
 }
 
 export class Magazin {
-    private readonly bullets: Bullet[] = [];
+    private readonly logger = loggerFactory.getLogger('<package>');
+    private bullets: Bullet[] = [];
 
     public addBullet(bullet: Bullet): void {
         this.bullets.push(bullet);
+    }
+
+    // remove bullets outside of the canvas
+    public removeFailedBullets(maxHeight: number): void {
+        this.bullets = this.bullets.filter((bullet: Bullet) => {
+            return bullet.y <= maxHeight || bullet.y < 0;
+        });
     }
 
     public fire(): void {
@@ -28,14 +37,26 @@ export class Magazin {
         aliens
             .filter((alien) => alien.IsAlive)
             .forEach((alien) => {
-                const rectAlient = new Rectangle(alien.x, alien.y, alien.width, alien.height);
+                const rectAlien = new Rectangle(alien.x, alien.y, alien.width, alien.height);
+                // const rectAlien = alien.rect;
 
                 for (let index = 0; index < this.bullets.length; index++) {
                     const bullet = this.bullets[index];
                     const rectBullet = new Rectangle(bullet.x, bullet.y, bullet.width, bullet.height);
-                    if (rectAlient.intersects(rectBullet)) {
+                    // const rectBullet = bullet.rect;
+                    if (rectAlien.intersects(rectBullet)) {
+                        this.logger.info('HIT!');
+                        alien.die();
                         this.bullets.splice(index, 1);
                         break;
+                    } else {
+                        // tslint:disable-next-line
+                        // new Promise((resolve) => {
+                        //     this.logger.info(
+                        //         `Rect-Alien ${rectAlien} does not intersect with Rect-Bullet ${rectBullet}`,
+                        //     );
+                        //     resolve();
+                        // });
                     }
                 }
             });

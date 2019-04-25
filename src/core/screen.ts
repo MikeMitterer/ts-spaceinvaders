@@ -62,6 +62,10 @@ export class Screen {
         Screen._screenInstance = undefined;
     }
 
+    public get size(): ScreenSize {
+        return { width: this.width, height: this.height };
+    }
+
     private constructor(size: ScreenSize = { width: 500, height: 500 }) {
         this.width = size.width;
         this.height = size.height;

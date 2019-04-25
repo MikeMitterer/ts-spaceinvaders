@@ -1,6 +1,7 @@
 // import invaders from "../assets/images/invaders.png";
 import invaders from '@/assets/images/invaders.png';
-import { Alien, Cities, City, Swarm, Tank } from '@/core/drawables';
+import { Alien, Bullet, Cities, City, Swarm, Tank } from '@/core/drawables';
+import { Magazin } from '@/core/Magazin';
 import { SimpleSprite, ToggleSprite } from '@/core/sprite';
 import * as validate from '@mmit/validate';
 
@@ -21,6 +22,7 @@ export class SpriteFactory {
 
     private _tank?: Tank;
     private _swarm?: Swarm;
+    private _magazin?: Magazin;
     private _cities?: Cities;
 
     private constructor() {
@@ -65,6 +67,17 @@ export class SpriteFactory {
             this._swarm = new Swarm(this.createAliens());
         }
         return this._swarm;
+    }
+
+    public get bullet(): Bullet {
+        return new Bullet(new SimpleSprite(this.image, 120, 0, 1, 10));
+    }
+
+    public get magazin(): Magazin {
+        if (!this._magazin) {
+            this._magazin = new Magazin();
+        }
+        return this._magazin;
     }
 
     public get cities(): Cities {
