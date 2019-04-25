@@ -337,7 +337,7 @@ export class Swarm implements Drawable, MoveHorizontale, MoveVertical {
  * Bullet fired either by an [Alien] or by the [[Tank]].
  * A [[Magazin]] is used to hold the [[Bullet]]s
  */
-class Bullet extends ScreenObject implements MoveVertical {
+export class Bullet extends ScreenObject implements MoveVertical {
     public velocity = 10;
 
     constructor(sprite: Sprite) {
@@ -440,14 +440,19 @@ export class Cities implements Drawable {
         // _context.stroke();
     }
 
-    public isCityHit(bullet: Bullet): boolean {
+    /**
+     * Destroy parts of the city it it is hit.
+     *
+     * If it is hit it returns true, otherwise it returns false
+     */
+    public destroyCityIfItIsHit(bullet: Bullet): boolean {
         const canvasOffset = this.y;
         const rectBullet = new Rectangle(bullet.x, bullet.y, bullet.width, Math.round(bullet.height / 2));
 
         for (const city of this.cities) {
             const rectCity = new Rectangle(city.x, city.y + canvasOffset, city.width, city.height);
             if (rectCity.intersects(rectBullet)) {
-                const data = this.imagePainter.getImageData(bullet.y, bullet.y - canvasOffset, 1, 1);
+                const data = this.imagePainter.getImageData(bullet.x, bullet.y - canvasOffset, 1, 1);
                 if (data.data[3] !== 0) {
                     this.damage(bullet.x, bullet.y - canvasOffset);
                     return true;
