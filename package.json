@@ -1,6 +1,6 @@
 {
     "name": "@mmit/spaceinvaders",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "private": true,
     "scripts": {
         "start": "vue-cli-service serve --mode development --open",
