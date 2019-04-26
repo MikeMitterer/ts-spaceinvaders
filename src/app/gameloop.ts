@@ -13,22 +13,12 @@ export enum GameState {
     YouWon,
 }
 
-export function checkGameState(spriteFactory: SpriteFactory): GameState {
-    if (spriteFactory.swarm.aliensAlive.length === 0) {
-        return GameState.YouWon;
-    }
-
-    if (spriteFactory.tank.hits >= 3) {
-        return GameState.YouLost;
-    }
-
-    if (spriteFactory.swarm.closestAlien.collidesWith(spriteFactory.cities)) {
-        return GameState.YouLost;
-    }
-
-    return GameState.Continue;
-}
-
+/**
+ * Game-Loop!
+ * This is where everything happens.
+ *
+ * Init, update, render
+ */
 export function run(): GameState {
     const logger = loggerFactory.getLogger('mmit.spaceinvaders.app.gameloop.run');
 
@@ -60,4 +50,23 @@ export function run(): GameState {
     _gameLoop(initState);
 
     return checkGameState(spriteFactory);
+}
+
+/**
+ * Checks if game continuous, if you lost or if you won
+ */
+function checkGameState(spriteFactory: SpriteFactory): GameState {
+    if (spriteFactory.swarm.aliensAlive.length === 0) {
+        return GameState.YouWon;
+    }
+
+    if (spriteFactory.tank.hits >= 3) {
+        return GameState.YouLost;
+    }
+
+    if (spriteFactory.swarm.closestAlien.collidesWith(spriteFactory.cities)) {
+        return GameState.YouLost;
+    }
+
+    return GameState.Continue;
 }

@@ -1,7 +1,8 @@
 <template>
-    <div id="app" class="modal">
+    <div id="app" class="layout">
         <AppHeader></AppHeader>
-        <div class="modal__content">
+        <div class="ribbon"></div>
+        <div class="layout__content">
             <router-view />
         </div>
         <AppFooter title="Mike"></AppFooter>

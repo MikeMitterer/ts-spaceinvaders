@@ -1,4 +1,41 @@
-#game {
-  border: 1px solid red;
-  background-color: black;
+.game-container {
+    //opacity: 0;
+    //&.ready { opacity: 1; }
+
+    flex-grow: 1;
+    border-radius: 2px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center; // ⇾
+    align-content: space-between; // ||
+    align-items: flex-start; // ↓
+
+    width: calc(800px - 16px);
+    min-height: 600px;
+
+    margin: 0 auto 24px auto;
+    padding: 24px;
+
+    background-color: rgba(18, 18, 18, 0.58) !important;
+
+
+    #game {
+        background-color: black;
+        > canvas {
+        }
+    }
+
+    .control-panel {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: flex-start; // ↓
+        align-content: space-between; // =
+        align-items: center; // ⇾
+
+        margin-left: 16px;
+    }
 }
+

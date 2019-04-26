@@ -1,0 +1,20 @@
+html[devmode='true'] {
+    .modal__content {
+        img.logo {
+            padding: 5px 25px;
+            border-radius: 10px;
+            background-color: $header-color;
+        }
+    }
+
+    .game-container {
+        border: 1px solid green;
+
+        #game { border: 1px solid red; }
+
+        .control-panel {
+            border: 1px solid blue;
+        }
+
+    }
+}

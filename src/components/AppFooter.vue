@@ -1,5 +1,5 @@
 <template>
-    <footer class="modal__footer">
+    <footer class="layout__footer">
         <div>
             <button class="add" @click="onClickIncrement">+</button>
             <button class="subtract" @click="onClickDecrement">-</button>

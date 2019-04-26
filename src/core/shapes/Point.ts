@@ -26,6 +26,9 @@ export class Point {
         return new Point(this.x - x, this.y - (y ? y : x));
     }
 
+    /**
+     * https://en.wikipedia.org/wiki/Hamilton%E2%80%93Jacobi_equation
+     */
     public hamiltonDistanceTo(point: Point): number {
         return Math.abs(point.x - this.x) + Math.abs(point.y - this.y);
     }

@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
+.arcade {
+  color: #FBE165;
+  font-family: 'Press Start 2P', cursive;
+
+  &.large {
+    font-size: 24px;
+
+    &.top {
+      margin: 0;
+    }
+  }
+
+
+}
+
+.status-message {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start; // ↓
+  align-content: space-between; // =
+  align-items: stretch; // ⇾
+
+  &__headline {
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__subheadline {
+    text-align: center;
+  }
+
+}
