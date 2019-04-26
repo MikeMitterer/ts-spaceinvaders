@@ -1,16 +1,16 @@
 # Rsync-Destination für dieses sample
 #
 #   - ssh ls2
-#   - cat ~/website/config/nginx/_template.conf.txt | sed -e 's/%example%/vuetsstarter/' > ~/website/config/nginx/vuetsstarter.conf
-#   - cat ~/website/config/nginx/vuetsstarter.conf
-#   - sudo mkdir -p ~/website/data/example/vuetsstarter
-#   - sudo chown ubuntu:ubuntu ~/website/data/example/vuetsstarter
-#   - sudo chmod 775 ~/website/data/example/vuetsstarter
-#   - echo 'vuetsstarter' > ~/website/data/example/vuetsstarter/index.html
-#   - ls -lad ~/website/data/example/vuetsstarter
+#   - cat ~/website/config/nginx/_template.conf.txt | sed -e 's/%example%/ts-spaceinvaders/' > ~/website/config/nginx/ts-spaceinvaders.conf
+#   - cat ~/website/config/nginx/ts-spaceinvaders.conf
+#   - sudo mkdir -p ~/website/data/example/ts-spaceinvaders
+#   - sudo chown ubuntu:ubuntu ~/website/data/example/ts-spaceinvaders
+#   - sudo chmod 775 ~/website/data/example/ts-spaceinvaders
+#   - echo 'ts-spaceinvaders' > ~/website/data/example/ts-spaceinvaders/index.html
+#   - ls -lad ~/website/data/example/ts-spaceinvaders
 #   - cd ~/website && docker-compose restart
 #
 
-RSYNC_DESTINATION=":~/website/data/example/vuetsstarter/"
-EXAMPLE_URL="http://vuetsstarter.example.mikemitterer.at/"
+RSYNC_DESTINATION=":~/website/data/example/ts-spaceinvaders/"
+EXAMPLE_URL="http://ts-spaceinvaders.example.mikemitterer.at/"
 

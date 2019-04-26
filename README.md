@@ -1,62 +1,37 @@
-# VUE Typescript Starter
-> [Live](http://vuetsstarter.example.mikemitterer.at) | [Home GitHub](https://github.com/MikeMitterer/vue-ts-starter)
+# SpaceInvaders - TypeScript version
 
-Basically this App has three components: AppHeader, AppFooter, HelloWorld (for testing)
-and two views: Home + About.
+> The classic Space Invaders game written with TypeScript.
 
-In `.env` is the title define - check it out.
+> [Live](http://ts-spaceinvaders.example.mikemitterer.at) | [GitHub](https://github.com/MikeMitterer/ts-spaceinvaders)
 
-'Click' modifies and displays text in the lower right
+There is also a Dart-Version available - if you want to check it out...
 
-The cat on the top right is add statically, the Lamborghini is added dynamically. (AppHeader component)
+-   [Dart-Invaders Live](http://spaceinvaders.mikemitterer.at/)
+-   [Dart-Invaders on GitHub](https://github.com/MikeMitterer/dart-space-invaders)
 
-For State Management I added a "CounterModule" (Vuex)  
+### License
 
-![Screenshot](doc/screenshot.png)      
+    Copyright 2019 Michael Mitterer (office@mikemitterer.at),
+    IT-Consulting and Development Limited, Austrian Branch
 
-## Environment-Vars and Template-Vars
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-These vars are set in `vue.config.js`
- 
-If you want to see how you can use e.g. `process.env.VUE_APP_VERSION` check out `AppFooter.vue`
+       http://www.apache.org/licenses/LICENSE-2.0
 
-`/public/index.html` tests if VUE_APP_DEV_MODE is set to true:
-```html
-...
-<html lang="en" <%if(VUE_APP_DEV_MODE){%>devmode="true"<%}%>>
-...
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+    either express or implied. See the License for the specific language
+    governing permissions and limitations under the License.
 
-``` 
+## Bugs / Contribute
 
-## Project setup
-```
-yarn install
-```
+You reach me via [GH - Issues](https://github.com/MikeMitterer/ts-spaceinvaders/issues)
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+Help is always welcome!
+If this plugin is helpful for you - follow me on [Twitter](https://twitter.com/MikeMitterer)
+or **star** this repo here on GitHub.
 
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Run your unit tests
-```
-yarn run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[www.MikeMitterer.at](https://www.mikemitterer.at/)
