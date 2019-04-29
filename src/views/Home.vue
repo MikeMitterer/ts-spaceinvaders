@@ -9,7 +9,18 @@ import {KeyCode} from "../core/InputHandler";
                 </p>
                 <p class="arcade status-message__subheadline">with<br />TS-Invaders</p>
                 <ArcadeButton @click="onClick"></ArcadeButton>
-                <p class="arcade status-message__subheadline">Press to Start</p>
+                <p v-if="gameState === 'Stopped'" class="arcade status-message__subheadline">
+                    Press to Start
+                </p>
+                <p v-if="gameState === 'Continue'" class="arcade status-message__subheadline">
+                    Press to Stop
+                </p>
+                <p v-if="gameState === 'YouLost'" class="arcade status-message__subheadline">
+                    Sorry - you lost!
+                </p>
+                <p v-if="gameState === 'YouWon'" class="arcade status-message__subheadline">
+                    Yes! You are the hero!
+                </p>
             </div>
             <GameStatus></GameStatus>
         </div>
@@ -17,10 +28,10 @@ import {KeyCode} from "../core/InputHandler";
 </template>
 
 <script lang="ts">
-import { GameState } from '@/app/GameState';
 import ArcadeButton from '@/components/ArcadeButton.vue';
 import GameStatus from '@/components/GameStatus.vue';
 import SpaceInvaders from '@/components/SpaceInvaders.vue';
+import { GameState } from '@/core/GameState';
 import gameModule from '@/store/modules/GameModule';
 import { loggerFactory } from '@mmit/communication/lib/config/ConfigLog4j';
 import { Component, Vue } from 'vue-property-decorator';
@@ -31,14 +42,6 @@ export default class Home extends Vue {
 
     public onClick(): void {
         gameModule.toggleGameState();
-
-        // if (gameModule.gameState === GameState.YouLost || gameModule.gameState === GameState.YouWon) {
-        //     const si = document.querySelector<SpaceInvaders>('SpaceInvaders');
-        // }
-        // const game = document.getElementById('game');
-        // if (game) {
-        //     game.focus();
-        // }
     }
 
     public get gameState(): string {

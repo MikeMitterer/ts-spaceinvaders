@@ -14,7 +14,7 @@ export default class ArcadeButton extends Vue {
     //     this.logger.info('Clicked!');
     // }
 
-    public onKeyDown(event: KeyboardEvent) {
+    public onKeyDown(event: KeyboardEvent): void {
         event.preventDefault();
     }
 }

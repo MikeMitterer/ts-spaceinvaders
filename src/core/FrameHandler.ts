@@ -13,9 +13,15 @@ export class FrameHandler {
 
     private direction: Direction = Direction.Right;
 
+    public reset(defaultFrequency: number = 30): void {
+        this.direction = Direction.Right;
+        this.updateFrequency = defaultFrequency;
+    }
+
     public update(updater: (direction: Direction) => void): void {
         this.frames++;
         if (this.frames % this._frequency === 0) {
+            this.frames = 0;
             updater(this.direction);
         }
     }

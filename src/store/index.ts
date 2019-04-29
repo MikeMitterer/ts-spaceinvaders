@@ -23,7 +23,7 @@ const state: RootState = {
  */
 const mutations: MutationTree<RootState> = {
     readyState(status: RootState, payload): void {
-        logger.info(`readyState - Mutation (${status}, ${payload})`);
+        logger.info(`readyState - Mutation`);
         status.loaded = true;
     },
 };
@@ -38,7 +38,8 @@ const mutations: MutationTree<RootState> = {
  */
 const actions: ActionTree<RootState, RootState> = {
     async readyState(context: ActionContext<RootState, RootState>, payload: undefined): Promise<void> {
-        logger.info(`readyState - Action (${JSON.stringify(context)},${payload})`);
+        // logger.info(`readyState - Action (${JSON.stringify(context)},${payload})`);
+        logger.info(`readyState - Action`);
 
         const loadState = true;
         context.commit('readyState', loadState);

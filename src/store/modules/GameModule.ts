@@ -1,4 +1,4 @@
-import { GameState } from '@/app/GameState';
+import { GameState } from '@/core/GameState';
 import { Action, getModule, Module, Mutation, VuexModule } from 'vuex-module-decorators';
 import store from '../index';
 
@@ -35,12 +35,6 @@ class GameModule extends VuexModule {
         return state;
     }
 
-    // action 'resetGameState' commits mutation '_resetGameState' when done with return value as payload
-    @Action({ commit: '_resetGameState' })
-    public async resetGameState(maxNumberOfTanks: number): Promise<number> {
-        return maxNumberOfTanks;
-    }
-
     // - Keep all the Mutations private - we don't want to call Mutations directly -----------------
 
     @Mutation
@@ -52,15 +46,9 @@ class GameModule extends VuexModule {
     private _toggleGameState(): void {
         if (this._gameState === GameState.Continue) {
             this._gameState = GameState.Stopped;
-        } else if (this._gameState === GameState.Stopped) {
+        } else {
             this._gameState = GameState.Continue;
         }
-    }
-
-    @Mutation
-    private _resetGameState(maxNumberOfTanks: number): void {
-        this._tanks = maxNumberOfTanks;
-        this._gameState = GameState.Stopped;
     }
 
     @Mutation

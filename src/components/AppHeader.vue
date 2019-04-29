@@ -9,15 +9,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import gameModule from '../store/modules/GameModule';
 
 @Component
 export default class AppHeader extends Vue {
     @Prop() private msg!: string;
-
-    public get counter(): number {
-        return Math.min(500, Math.max(110, gameModule.count));
-    }
 }
 </script>
 

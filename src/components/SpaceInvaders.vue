@@ -1,10 +1,10 @@
 <template>
-    <div id="game" :gameState="gameState"></div>
+    <div id="game" :currentState="gameState"></div>
+    <!-- div id="game" :gameState="gameState"></div -->
 </template>
 
 <script lang="ts">
 import { run } from '@/app/gameloop';
-import { GameState } from '@/app/GameState';
 import { loggerFactory } from '@/config/ConfigLog4j';
 import { InputHandler, KeyCode } from '@/core/InputHandler';
 import { Screen } from '@/core/screen';
@@ -15,18 +15,17 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 export default class SpaceInvaders extends Vue {
     private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.components.SpaceInvaders');
 
-    // private readonly actionBus = ActionBus.getInstance();
     private readonly spriteFactory = SpriteFactory.getInstance();
 
     private animationTimer: number | undefined;
 
-    @Prop({ default: 'GameState.Stopped' })
+    @Prop({ default: 'Stopped' })
     public gameState!: string;
 
     @Watch('gameState')
-    public onGameStateChanged(state: unknown, oldValue: unknown): void {
-        this.logger.info(`Watch 'gameState': ${state} / ${oldValue}`);
-        if (state === 'Stopped') {
+    public onGameStateChanged(state: string, oldState: string): void {
+        // this.logger.info(`Watch 'gameState': ${state} / ${oldState}`);
+        if (state === 'Continue' && (oldState === 'YouWon' || oldState === 'YouLost')) {
             this.reset();
         }
     }
@@ -39,11 +38,9 @@ export default class SpaceInvaders extends Vue {
             this.logger.debug('KeyChanged');
         });
 
-        // setInterval(() => {
-        //     this.logger.info(`GS ${this.gameState}`);
-        // }, 500);
-
-        setTimeout(run, 500);
+        setTimeout(() => {
+            run();
+        }, 300);
     }
 
     public mounted(): void {

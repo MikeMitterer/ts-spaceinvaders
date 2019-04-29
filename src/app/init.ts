@@ -20,7 +20,7 @@ const MARGIN_CITIES = 20;
  * @param spritefactory
  */
 export function init(frameHandler: FrameHandler, screensize: ScreenSize, spritefactory: SpriteFactory): void {
-    frameHandler.updateFrequency = 30;
+    frameHandler.reset();
 
     const _resetGameState = (): void => {
         spritefactory.tank.hits = 0;

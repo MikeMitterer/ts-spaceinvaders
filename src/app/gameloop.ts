@@ -1,10 +1,10 @@
 /// GameState indicator
-import { GameState } from '@/app/GameState';
 import { init } from '@/app/init';
 import { render } from '@/app/render';
 import { update } from '@/app/update';
 import { loggerFactory } from '@/config/ConfigLog4j';
 import { FrameHandler } from '@/core/FrameHandler';
+import { GameState } from '@/core/GameState';
 import { Screen } from '@/core/screen';
 import { SpriteFactory } from '@/core/SpriteFactory';
 import gameModule from '../store/modules/GameModule';
@@ -17,7 +17,7 @@ const MAX_NUMBER_OF_TANKS = 3;
  *
  * Init, update, render
  */
-export function run(): GameState {
+export function run(withState: GameState = GameState.Continue): GameState {
     const logger = loggerFactory.getLogger('mmit.spaceinvaders.app.gameloop.run');
 
     const frameHandler = new FrameHandler();
@@ -25,10 +25,12 @@ export function run(): GameState {
     const screen = Screen.getInstance();
 
     init(frameHandler, screen.size, spriteFactory);
-    gameModule.resetGameState(MAX_NUMBER_OF_TANKS);
+    gameModule.setNumberOfTanks(MAX_NUMBER_OF_TANKS);
+    gameModule.setGameState(withState);
 
     let initState = checkGameState(spriteFactory);
 
+    let requestID = 0;
     const _gameLoop = (state: GameState): void => {
         if (gameModule.gameState === GameState.Continue) {
             update(frameHandler, spriteFactory, screen.size);
@@ -43,9 +45,12 @@ export function run(): GameState {
 
         if (state !== GameState.Continue && state !== gameModule.gameState) {
             logger.info(`Final state: ${GameState[state]}`);
+            window.cancelAnimationFrame(requestID);
             gameModule.setGameState(state);
+        } else {
+            // Continue the _gameLoop
+            requestID = window.requestAnimationFrame(() => _gameLoop(state));
         }
-        window.requestAnimationFrame(() => _gameLoop(state));
     };
 
     _gameLoop(initState);
