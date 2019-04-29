@@ -1,4 +1,3 @@
-import { loggerFactory } from '@/config/ConfigLog4j';
 import { Alien, Bullet, Cities, Tank } from '@/core/drawables';
 import { Painter } from '@/core/painter';
 import { Rectangle } from '@/core/shapes/Rectangle';
@@ -9,7 +8,7 @@ enum Continue {
 }
 
 export class Magazin {
-    private readonly logger = loggerFactory.getLogger('<package>');
+    // private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.core.Magazin');
     private bullets: Bullet[] = [];
 
     public addBullet(bullet: Bullet): void {
@@ -45,7 +44,7 @@ export class Magazin {
                     const rectBullet = new Rectangle(bullet.x, bullet.y, bullet.width, bullet.height);
                     // const rectBullet = bullet.rect;
                     if (rectAlien.intersects(rectBullet)) {
-                        this.logger.info('HIT!');
+                        // this.logger.info('HIT!');
                         alien.die();
                         this.bullets.splice(index, 1);
                         break;

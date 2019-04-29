@@ -1,7 +1,6 @@
 /**
  * Base class for all the drawable (paintable) objects on the screen.
  */
-import { loggerFactory } from '@/config/ConfigLog4j';
 import NoMoreAliensException from '@/core/exeptions/NoMoreAliensException';
 import { ImagePainter, Painter } from '@/core/painter';
 import { Screen } from '@/core/screen';
@@ -180,7 +179,7 @@ export class Swarm implements Drawable, MoveHorizontale, MoveVertical {
     public static readonly ROWS = 5;
     public static readonly COLS = 10;
 
-    private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.core.Swarm');
+    // private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.core.Swarm');
 
     private _x: number = 0;
     private _y: number = 0;
@@ -278,7 +277,7 @@ export class Swarm implements Drawable, MoveHorizontale, MoveVertical {
             }
         }
 
-        this.logger.info(`IA ${front.length}`);
+        // this.logger.info(`IA ${front.length}`);
         return front;
     }
 
@@ -310,7 +309,7 @@ export class Swarm implements Drawable, MoveHorizontale, MoveVertical {
 
         if (this.width === 0) {
             // tslint:disable-next-line:quotemark
-            this.logger.warn("'width' not set for updatePostion! You must set the width for Swarm first.");
+            // this.logger.warn("'width' not set for updatePostion! You must set the width for Swarm first.");
             return;
         }
 

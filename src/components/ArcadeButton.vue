@@ -1,20 +1,21 @@
 <template>
-    <button class="arcade-button" @click="onClick">
+    <button class="arcade-button" @click="$emit('click', $event)" @keydown="onKeyDown">
         <div class="arcade-button__knob"></div>
     </button>
 </template>
 
 <script lang="ts">
-import { loggerFactory } from '@/config/ConfigLog4j';
-// import { ActionBus } from '@mmit/communication/lib/actionbus';
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class ArcadeButton extends Vue {
-    private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.components.ArcadeButton');
+    // private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.components.ArcadeButton');
+    // public onClick(): void {
+    //     this.logger.info('Clicked!');
+    // }
 
-    public onClick(): void {
-        this.logger.info('Clicked!');
+    public onKeyDown(event: KeyboardEvent) {
+        event.preventDefault();
     }
 }
 </script>
@@ -34,7 +35,7 @@ $arcade-button-size: 80px !default;
 // - More: http://codepen.io/MikeMitterer/pen/RrLaPe
 //
 .arcade-button {
-    display: flex;
+    display: inline-flex;
     user-select: none;
 
     flex-direction: row;

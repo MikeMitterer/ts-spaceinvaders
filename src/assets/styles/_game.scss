@@ -1,41 +1,47 @@
+// Default size for game: 500x600
+//
+// Specified in core/screen.ts
 .game-container {
+    .loading & {
+        display: none;
+    }
+
     //opacity: 0;
     //&.ready { opacity: 1; }
 
-    flex-grow: 1;
-    border-radius: 2px;
+    display: inline-grid;
 
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center; // ⇾
-    align-content: space-between; // ||
-    align-items: flex-start; // ↓
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 30px;
+    // align-items: start;
 
-    width: calc(800px - 16px);
-    min-height: 600px;
+    border-radius: 5px;
 
-    margin: 0 auto 24px auto;
     padding: 24px;
 
     background-color: rgba(18, 18, 18, 0.58) !important;
 
-
     #game {
         background-color: black;
+
         > canvas {
         }
     }
 
     .control-panel {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        justify-content: flex-start; // ↓
-        align-content: space-between; // =
-        align-items: center; // ⇾
+        justify-self: center;
 
         margin-left: 16px;
     }
+
+    #status {
+        background-color: black;
+    }
 }
 
+// Predefine some sizes to avoid flickering when
+// Game gets loaded
+.game-container {
+    width: 774px; height: 682px;
+    #game { width: 500px; height: 604px; }
+}

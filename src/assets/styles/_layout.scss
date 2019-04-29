@@ -88,23 +88,4 @@
             color: green;
         }
     }
-
-    button {
-        min-width: 30px;
-        color: #fff !important;
-        /* text-transform: uppercase; */
-        background: #ed3330;
-        padding: 5px 10px;
-        border-radius: 3px;
-        display: inline-block;
-        border: none;
-        margin: 0 5px;
-
-        &.add {
-        }
-
-        &.subtract {
-            background-color: green;
-        }
-    }
 }

@@ -6,11 +6,11 @@
     </div>
 </template>
 <script lang="ts">
-import HelloWorld from '@/components/HelloWorld.vue';
-import { Component, Vue } from 'vue-property-decorator';
-import counterModule from '../store/modules/CounterModule';
+    import HelloWorld from '@/components/HelloWorld.vue';
+    import { Component, Vue } from 'vue-property-decorator';
+    import counterModule from '../store/modules/GameModule';
 
-@Component({ components: { HelloWorld } })
+    @Component({ components: { HelloWorld } })
 export default class About extends Vue {
     public get counter(): number {
         return counterModule.count;

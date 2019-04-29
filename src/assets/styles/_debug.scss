@@ -16,5 +16,12 @@ html[devmode='true'] {
             border: 1px solid blue;
         }
 
+        #status {
+            border: 1px solid yellow;
+
+            .tank {
+                border: 1px solid purple;
+            }
+        }
     }
 }

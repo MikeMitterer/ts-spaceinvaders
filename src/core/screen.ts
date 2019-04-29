@@ -71,16 +71,36 @@ export class Screen {
         this.height = size.height;
 
         // this.canvas = new HTMLCanvasElement();
-        this.canvas = document.createElement('canvas');
-        this.canvas.width = this.width;
-        this.canvas.height = this.height;
-
-        this.context = validate.notNull(this.canvas.getContext('2d'), () => '2D Context was null!');
+        // this.canvas = document.createElement('canvas');
+        // this.canvas.width = this.width;
+        // this.canvas.height = this.height;
+        //
+        // this.context = validate.notNull(this.canvas.getContext('2d'), () => '2D Context was null!');
 
         const game = this.gameElement;
         if (game) {
-            game.appendChild(this.canvas);
+            const canvas = game.querySelector<HTMLCanvasElement>('canvas');
+            let canvasCreated = false;
+
+            if (canvas) {
+                this.canvas = canvas;
+            } else {
+                this.canvas = document.createElement('canvas');
+                canvasCreated = true;
+            }
+            this.context = this.contextFromCanvas(this.canvas);
+            this.canvas.width = this.width;
+            this.canvas.height = this.height;
+
+            if (canvasCreated) {
+                game.appendChild(this.canvas);
+            }
         } else {
+            this.canvas = document.createElement('canvas');
+            this.context = this.contextFromCanvas(this.canvas);
+
+            this.canvas.width = this.width;
+            this.canvas.height = this.height;
             document.body.appendChild(this.canvas);
         }
 
@@ -103,5 +123,9 @@ export class Screen {
      */
     private get gameElement(): HTMLElement | null {
         return document.getElementById('game');
+    }
+
+    private contextFromCanvas(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
+        return validate.notNull(canvas.getContext('2d'), () => '2D Context was null!');
     }
 }

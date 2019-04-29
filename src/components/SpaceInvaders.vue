@@ -1,15 +1,15 @@
 <template>
-    <div id="game"></div>
+    <div id="game" :gameState="gameState"></div>
 </template>
 
 <script lang="ts">
 import { run } from '@/app/gameloop';
+import { GameState } from '@/app/GameState';
 import { loggerFactory } from '@/config/ConfigLog4j';
 import { InputHandler, KeyCode } from '@/core/InputHandler';
 import { Screen } from '@/core/screen';
 import { SpriteFactory } from '@/core/SpriteFactory';
-// import { ActionBus } from '@mmit/communication/lib/actionbus';
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component
 export default class SpaceInvaders extends Vue {
@@ -20,6 +20,32 @@ export default class SpaceInvaders extends Vue {
 
     private animationTimer: number | undefined;
 
+    @Prop({ default: 'GameState.Stopped' })
+    public gameState!: string;
+
+    @Watch('gameState')
+    public onGameStateChanged(state: unknown, oldValue: unknown): void {
+        this.logger.info(`Watch 'gameState': ${state} / ${oldValue}`);
+        if (state === 'Stopped') {
+            this.reset();
+        }
+    }
+
+    public reset(): void {
+        InputHandler.reset();
+        Screen.destroy();
+
+        InputHandler.init(() => {
+            this.logger.debug('KeyChanged');
+        });
+
+        // setInterval(() => {
+        //     this.logger.info(`GS ${this.gameState}`);
+        // }, 500);
+
+        setTimeout(run, 500);
+    }
+
     public mounted(): void {
         this.logger.info('Mounted!');
 
@@ -27,15 +53,10 @@ export default class SpaceInvaders extends Vue {
             clearInterval(this.animationTimer);
         }
 
+        this.reset();
+
         // setTimeout(this.onMount, 500);
         // this.animationTimer = setInterval(this.onAnimation, 500);
-
-        // InputHandler.init(this.onKeyChanged);
-        InputHandler.init(() => {
-            this.logger.debug('KeyChanged');
-        });
-
-        setTimeout(run, 500);
 
         // this.actionBus.on(KeyChangedEvent.EVENT, this.onKeyChanged);
     }

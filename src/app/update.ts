@@ -3,11 +3,10 @@ import { InputHandler, KeyCode } from '@/core/InputHandler';
 import { ScreenSize } from '@/core/screen';
 import { SpeedGenerator } from '@/core/SpeedGenerator';
 import { SpriteFactory } from '@/core/SpriteFactory';
-import { loggerFactory } from '@mmit/communication/lib/config/ConfigLog4j';
 
 // prettier-ignore
 export function update(frameHandler: FrameHandler, spriteFactory: SpriteFactory, screenSize: ScreenSize): void {
-    const logger = loggerFactory.getLogger('mmit.spaceinvaders.app.update');
+    // const logger = loggerFactory.getLogger('mmit.spaceinvaders.app.update');
 
     const tankSpeed = SpeedGenerator.getSpeed(2, 7);
 
@@ -17,7 +16,7 @@ export function update(frameHandler: FrameHandler, spriteFactory: SpriteFactory,
     const tankCanMoveVertically = false;
 
     // Only for debugging
-    const swarmCanMoveUpAndDown = true && !tankCanMoveVertically;
+    const swarmCanMoveUpAndDown = false && !tankCanMoveVertically;
 
     const tank = spriteFactory.tank;
 
@@ -104,7 +103,7 @@ export function update(frameHandler: FrameHandler, spriteFactory: SpriteFactory,
             _changeDirection(direction);
         }
 
-        logger.info(`UF ${frameHandler}`);
+        // logger.info(`UF ${frameHandler}`);
         _chooseAlienToFire();
     });
 

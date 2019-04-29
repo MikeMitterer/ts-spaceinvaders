@@ -2,7 +2,7 @@ import { loggerFactory } from '@/config/ConfigLog4j';
 import Vue from 'vue';
 import Vuex, { ActionContext, ActionTree, MutationTree } from 'vuex';
 
-// import counterModule from './modules/CounterModule';
+// import gameModule from './modules/GameModule';
 
 const logger = loggerFactory.getLogger('mmit.spaceinvaders.store');
 
@@ -50,7 +50,7 @@ const store = new Vuex.Store({
     mutations,
     actions,
     // modules: {
-    //     counterModule,
+    //     gameModule,
     // },
 });
 

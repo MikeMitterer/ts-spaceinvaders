@@ -5,7 +5,7 @@
         <div class="layout__content">
             <router-view />
         </div>
-        <AppFooter title="Mike"></AppFooter>
+        <AppFooter></AppFooter>
     </div>
 </template>
 

@@ -1,9 +1,7 @@
 <template>
     <footer class="layout__footer">
         <div>
-            <button class="add" @click="onClickIncrement">+</button>
-            <button class="subtract" @click="onClickDecrement">-</button>
-            <span id="app">Loading... / {{ title_inc || title }}</span>
+            <span>&nbsp;</span>
         </div>
         <div>
             <div class="version_block">
@@ -19,31 +17,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import counterModule from '../store/modules/CounterModule';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class AppFooter extends Vue {
-    private anotherTitle: string = '';
-
-    @Prop({ default: process.env.VUE_APP_TITLE })
-    private title!: string;
-
-    // Component methods can be declared as instance methods
-    public onClickIncrement(): void {
-        counterModule.increment(2);
-        this.anotherTitle = `${this.title} + ${counterModule.count}`;
-    }
-
-    public onClickDecrement(): void {
-        counterModule.decrement(2);
-        this.anotherTitle = `${this.title} + ${counterModule.count}`;
-    }
-
-    public get title_inc(): string {
-        return this.anotherTitle;
-    }
-
     public get published(): string {
         return process.env.VUE_APP_PUBLISHED;
     }
