@@ -11,8 +11,16 @@ $block-color: rgba(#6844b7, 0.1);
 $header-footer-height: 50px;
 $header-footer-padding: 10px;
 
+$game-container-width: 774px;
+$game-container-height: 682px;
+$game-container-border-radius: 5px !default;
+$game-container-border-padding: 24px !default;
+
+$game-width: 500px;
+$game-height: 604px;
+$game-background-color: rgba(18, 18, 18, 0.58);
+
 @import 'layout';
-@import 'typography';
 @import 'game';
 
 // Only for CSS-debugging
@@ -45,6 +53,20 @@ body {
 
         background-color: #410601;
     }
+
+    .about-container {
+        color: white;
+
+        margin-left: auto;
+        margin-right: auto;
+
+        width: $game-container-width;
+        height: $game-container-height;
+
+        border-radius: $game-container-border-radius;
+        padding: $game-container-border-padding;
+        background-color: $game-background-color !important;
+    }
 }
 
 .layout {
@@ -65,71 +87,5 @@ body {
                 color: initial;
             }
         }
-    }
-}
-
-.button {
-    display: inline-block;
-    border: 1px solid #b7b7b7 !important;
-    border-radius: 3px;
-    padding: 5px 10px;
-    line-height: 15px;
-    cursor: pointer;
-    min-height: 27px;
-}
-button:focus {
-    outline: 0;
-}
-
-.modal__content {
-    .toolbar {
-        padding: 10px 0;
-
-        display: flex;
-        flex-direction: row;
-
-        > * {
-            margin-right: 10px;
-        }
-    }
-
-    #tstest {
-        background-color: darkolivegreen;
-    }
-
-    #tsevent {
-        background-color: cornflowerblue;
-        color: white;
-    }
-    #tsexception {
-        background-color: orangered;
-        color: white;
-    }
-}
-
-.demo_images {
-    img {
-        max-height: 30px;
-        border-radius: 5px;
-        margin: 0 5px;
-    }
-}
-
-.row {
-    width: 100%;
-    margin: 10px 0;
-
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly; // ⇾
-    align-content: inherit; // ||
-    align-items: center; // ↓
-
-    > .col {
-        background-color: $block-color;
-        margin-right: 10px;
-        padding: 15px;
-        border-radius: 3px;
     }
 }

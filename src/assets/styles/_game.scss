@@ -1,3 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
+$game-container-width: 774px !default;
+$game-container-height: 682px !default;
+$game-container-border-radius: 5px !default;
+$game-container-border-padding: 24px !default;
+
+$game-width: 500px !default;
+$game-height: 604px !default;
+$game-background-color: rgba(18, 18, 18, 0.58) !default;
+
+// Predefine some sizes to avoid flickering when
+// Game gets loaded
+.game-container {
+    width: $game-container-width; height: $game-container-height;
+    #game { $game-width: 500px; $game-height: 604px; }
+}
+
 // Default size for game: 500x600
 //
 // Specified in core/screen.ts
@@ -15,11 +33,11 @@
     grid-template-rows: auto 30px;
     // align-items: start;
 
-    border-radius: 5px;
+    border-radius: $game-container-border-radius;
 
-    padding: 24px;
+    padding: $game-container-border-padding;
 
-    background-color: rgba(18, 18, 18, 0.58) !important;
+    background-color: $game-background-color !important;
 
     #game {
         background-color: black;
@@ -39,9 +57,39 @@
     }
 }
 
-// Predefine some sizes to avoid flickering when
-// Game gets loaded
-.game-container {
-    width: 774px; height: 682px;
-    #game { width: 500px; height: 604px; }
+// - Typography ------------------------------------------------------------------------------------
+
+.arcade {
+    color: #FBE165;
+    font-family: 'Press Start 2P', cursive;
+
+    &.large {
+        font-size: 24px;
+
+        &.top {
+            margin: 0;
+        }
+    }
+
+
 }
+
+.status-message {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start; // ↓
+    align-content: space-between; // =
+    align-items: stretch; // ⇾
+
+    &__headline {
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    &__subheadline {
+        text-align: center;
+    }
+
+}
+

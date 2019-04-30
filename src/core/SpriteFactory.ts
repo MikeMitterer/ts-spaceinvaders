@@ -1,5 +1,5 @@
-// import invaders from "../assets/images/invaders.png";
-import invaders from '@/assets/images/invaders.png';
+// import invaders from "../assets/images/static/invaders.png";
+import invaders from '@/assets/images/static/invaders.png';
 import { Alien, Bullet, Cities, City, Swarm, Tank } from '@/core/drawables';
 import { Magazin } from '@/core/Magazin';
 import { SimpleSprite, ToggleSprite } from '@/core/sprite';

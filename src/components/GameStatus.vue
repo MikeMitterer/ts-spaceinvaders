@@ -1,16 +1,16 @@
 <template>
     <div id="status">
         <ul class="tank">
-            <li v-for="_ in tanks"><img src="../assets/images/invaders.png" /></li>
+            <li v-for="_ in tanks"><img src="../assets/images/static/invaders.png" /></li>
         </ul>
     </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import gameModule from '../store/modules/GameModule';
+    import { Component, Vue } from 'vue-property-decorator';
+    import gameModule from '../store/modules/GameModule';
 
-@Component
+    @Component
 export default class GameStatus extends Vue {
     // private readonly logger = loggerFactory.getLogger('<package>');
 
