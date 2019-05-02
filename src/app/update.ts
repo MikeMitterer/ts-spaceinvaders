@@ -97,9 +97,9 @@ export function update(frameHandler: FrameHandler, spriteFactory: SpriteFactory,
 
         direction === Direction.Left ? spriteFactory.swarm.moveLeft() : spriteFactory.swarm.moveRight();
 
-        if (spriteFactory.swarm.x + spriteFactory.swarm.width >= screenSize.width - 10) {
+        if (spriteFactory.swarm.x + spriteFactory.swarm.width >= screenSize.width - 5) {
             _changeDirection(direction);
-        } else if (spriteFactory.swarm.x <= 10) {
+        } else if (spriteFactory.swarm.x <= 5) {
             _changeDirection(direction);
         }
 

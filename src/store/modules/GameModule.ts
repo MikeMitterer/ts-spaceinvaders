@@ -7,7 +7,7 @@ class GameModule extends VuexModule {
     /** Set in gameloop (init) */
     private _tanks = 0;
 
-    private _gameState = GameState.Stopped;
+    private _gameState = GameState.Continue;
 
     public get tanks(): number {
         return this._tanks;

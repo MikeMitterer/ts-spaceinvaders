@@ -1,7 +1,8 @@
 <template>
     <div class="layout__header">
         <nav class="navbar navbar-light">
-            <router-link to="/">Home</router-link> |
+            <router-link to="/">Home</router-link>
+            <div class="spacer">&nbsp;</div>
             <router-link to="/about">About</router-link>
         </nav>
     </div>

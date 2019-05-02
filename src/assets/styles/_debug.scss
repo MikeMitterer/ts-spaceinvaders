@@ -1,5 +1,7 @@
 html[devmode='true'] {
-    .modal__content {
+    .layout__content {
+        border: 1px solid #FBE165;
+        
         img.logo {
             padding: 5px 25px;
             border-radius: 10px;

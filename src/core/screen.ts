@@ -7,6 +7,7 @@
  *     init(frameHandler,screensize,spritefactory);
  */
 import { Painter } from '@/core/painter';
+import { loggerFactory } from '@mmit/communication/lib/config/ConfigLog4j';
 import * as validate from '@mmit/validate';
 
 export interface ScreenSize {
@@ -32,11 +33,15 @@ export interface ScreenSize {
 export class Screen {
     private static _screenInstance: Screen | undefined;
 
+    private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.core.Screen');
+
     private readonly canvas: HTMLCanvasElement;
     private readonly context: CanvasRenderingContext2D;
 
-    public readonly width: number;
-    public readonly height: number;
+    private readonly resizeCallback: () => void;
+
+    private _width: number = 0;
+    private _height: number = 0;
 
     /** Every [ScreenObject] draws on this [Painter] */
     public readonly painter: Painter;
@@ -48,13 +53,13 @@ export class Screen {
         return this._screenInstance;
     }
 
-    public static create(size: ScreenSize = { width: 500, height: 600 }): Screen {
+    public static create(): Screen {
         validate.isTrue(
             !Screen._screenInstance,
             () => 'Screen was already created. Only one instance is allowed!',
         );
 
-        Screen._screenInstance = new Screen(size);
+        Screen._screenInstance = new Screen();
         return Screen._screenInstance;
     }
 
@@ -63,13 +68,10 @@ export class Screen {
     }
 
     public get size(): ScreenSize {
-        return { width: this.width, height: this.height };
+        return { width: this._width, height: this._height };
     }
 
-    private constructor(size: ScreenSize = { width: 500, height: 500 }) {
-        this.width = size.width;
-        this.height = size.height;
-
+    private constructor() {
         // this.canvas = new HTMLCanvasElement();
         // this.canvas = document.createElement('canvas');
         // this.canvas.width = this.width;
@@ -77,34 +79,49 @@ export class Screen {
         //
         // this.context = validate.notNull(this.canvas.getContext('2d'), () => '2D Context was null!');
 
-        const game = this.gameElement;
-        if (game) {
-            const canvas = game.querySelector<HTMLCanvasElement>('canvas');
-            let canvasCreated = false;
+        const game = validate.notNull(
+            this.gameElement,
+            () => 'Could not find an element with id="game" - Strange!',
+        );
 
-            if (canvas) {
-                this.canvas = canvas;
-            } else {
-                this.canvas = document.createElement('canvas');
-                canvasCreated = true;
+        this.canvas = validate.notNull(
+            game.querySelector<HTMLCanvasElement>('canvas'),
+            () => 'No canvas! Check your template...',
+        );
+
+        this.resizeCallback = this.resizeCanvas(game, this.canvas);
+        // window.removeEventListener('resize', this.resizeCallback);
+        // window.addEventListener('resize', this.resizeCallback);
+        // window.addEventListener('orientationchange', this.resizeCallback);
+
+        let timerID = -1;
+        timerID = setInterval(() => {
+            const rect = game.getBoundingClientRect();
+
+            this.logger.info(`Interval: ${rect.width}, ${rect.height}`);
+            this._width = rect.width;
+            this._height = rect.height;
+
+            if (this._width !== 0 && this._height !== 0) {
+                this.resizeCallback();
+                clearInterval(timerID);
             }
-            this.context = this.contextFromCanvas(this.canvas);
-            this.canvas.width = this.width;
-            this.canvas.height = this.height;
+        }, 300);
 
-            if (canvasCreated) {
-                game.appendChild(this.canvas);
-            }
-        } else {
-            this.canvas = document.createElement('canvas');
-            this.context = this.contextFromCanvas(this.canvas);
-
-            this.canvas.width = this.width;
-            this.canvas.height = this.height;
-            document.body.appendChild(this.canvas);
-        }
+        this.resizeCallback();
+        this.context = this.contextFromCanvas(this.canvas);
+        this.canvas.width = this._width;
+        this.canvas.height = this._height;
 
         this.painter = new Painter(this.context);
+    }
+
+    public get width(): number {
+        return this._width;
+    }
+
+    public get height(): number {
+        return this._height;
     }
 
     /**
@@ -115,7 +132,7 @@ export class Screen {
      *     }
      */
     public clear(): void {
-        this.context.clearRect(0, 0, this.width, this.height);
+        this.context.clearRect(0, 0, this._width, this._height);
     }
 
     /**
@@ -127,5 +144,16 @@ export class Screen {
 
     private contextFromCanvas(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
         return validate.notNull(canvas.getContext('2d'), () => '2D Context was null!');
+    }
+
+    private resizeCanvas(game: HTMLElement, canvas: HTMLCanvasElement): () => void {
+        return (): void => {
+            const rect = game.getBoundingClientRect();
+
+            this.logger.info(`Resize: ${rect.width}, ${rect.height}`);
+
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        };
     }
 }

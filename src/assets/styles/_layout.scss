@@ -14,7 +14,9 @@
 
     &__header, &__content, &__footer {
         flex-grow: 1;
-        align-self: stretch;
+        
+        width: 100%;
+        //align-self: stretch;
     }
 
     &__header {
@@ -26,14 +28,51 @@
         align-items: flex-start; // ↓
 
         background-color: $header-color !important;
+
+        nav {
+            // full width
+            flex-grow: 1;
+
+            //max-width: 100%;
+
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start; // ⇾
+            align-content: space-between; // ||
+            align-items: flex-start; // ↓
+
+            > .spacer {
+                flex-grow: 1;
+                align-self: end;
+            }
+
+            //display: grid;
+            //
+            //grid-template-columns: auto 1fr auto;
+            //grid-template-rows: auto;
+            //
+            //// Row-axis
+            //justify-items: left;
+            //
+            //// Col-axis
+            //align-items: center;
+        }
     }
 
     &__content {
+        display: flex;
+
         max-height: calc(100vh - (#{$header-footer-height} * 2));
         height: calc(100vh - (#{$header-footer-height} * 2));
 
         overflow-y: scroll;
         padding: 10px;
+
+        > * {
+            flex-grow: 1;
+            // height: 100%;
+        }
     }
 
     &__footer {

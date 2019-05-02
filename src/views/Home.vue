@@ -1,7 +1,7 @@
 import {KeyCode} from "../core/InputHandler";
 <template>
     <div class="home">
-        <div class="game-container">
+        <div class="game-container" v-bind:class="gameState.toLowerCase()">
             <SpaceInvaders :gameState="gameState"></SpaceInvaders>
             <div class="control-panel">
                 <p class="arcade large top status-message__headline">

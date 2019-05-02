@@ -16,6 +16,7 @@ $game-container-height: 682px;
 $game-container-border-radius: 5px !default;
 $game-container-border-padding: 24px !default;
 
+// 375 x 565
 $game-width: 500px;
 $game-height: 604px;
 $game-background-color: rgba(18, 18, 18, 0.58);
@@ -24,7 +25,7 @@ $game-background-color: rgba(18, 18, 18, 0.58);
 @import 'game';
 
 // Only for CSS-debugging
-// @import 'debug';
+@import 'debug';
 
 body {
     background-color: $background-color;
@@ -54,14 +55,17 @@ body {
         background-color: #410601;
     }
 
-    .about-container {
+    .about-container,
+    .about-container a {
         color: white;
-
+        text-decoration: none;
+    }
+    .about-container {
         margin-left: auto;
         margin-right: auto;
 
         width: $game-container-width;
-        height: $game-container-height;
+        // height: $game-container-height;
 
         border-radius: $game-container-border-radius;
         padding: $game-container-border-padding;
@@ -73,6 +77,12 @@ body {
     &__header {
         background-image: url(../images/static/banner.jpg);
         background-position: left bottom;
+    }
+
+    &__content {
+        @media (max-width: 790px) {
+            padding: 0;
+        }
     }
 
     &__footer {

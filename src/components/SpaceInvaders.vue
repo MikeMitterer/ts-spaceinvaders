@@ -1,6 +1,5 @@
 <template>
-    <div id="game" :currentState="gameState"></div>
-    <!-- div id="game" :gameState="gameState"></div -->
+    <div id="game" :currentState="gameState"><canvas>&nbsp;</canvas></div>
 </template>
 
 <script lang="ts">
@@ -27,6 +26,8 @@ export default class SpaceInvaders extends Vue {
         // this.logger.info(`Watch 'gameState': ${state} / ${oldState}`);
         if (state === 'Continue' && (oldState === 'YouWon' || oldState === 'YouLost')) {
             this.reset();
+        } else if (state === 'Continue') {
+            Screen.getInstance().clear();
         }
     }
 
@@ -34,13 +35,23 @@ export default class SpaceInvaders extends Vue {
         InputHandler.reset();
         Screen.destroy();
 
+        Screen.create();
         InputHandler.init(() => {
             this.logger.debug('KeyChanged');
         });
 
-        setTimeout(() => {
-            run();
-        }, 300);
+        if (this.animationTimer) {
+            clearInterval(this.animationTimer);
+        }
+
+        // It takes a while until the Screen (Canvas) is ready
+        this.animationTimer = setInterval(() => {
+            if (Screen.getInstance().width > 0 && Screen.getInstance().height > 0) {
+                clearInterval(this.animationTimer);
+                this.animationTimer = undefined;
+                run();
+            }
+        }, 100);
     }
 
     public mounted(): void {
