@@ -68,7 +68,7 @@ $game-background-color: rgba(18, 18, 18, 0.58) !default;
         }
 
         &.youwon, &.youlost, &stopped {
-            #game {
+            #game, #status {
                 filter: blur(2px);
             }
         }

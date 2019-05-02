@@ -25,7 +25,7 @@ $game-background-color: rgba(18, 18, 18, 0.58);
 @import 'game';
 
 // Only for CSS-debugging
-@import 'debug';
+// @import 'debug';
 
 body {
     background-color: $background-color;
@@ -80,6 +80,9 @@ body {
     }
 
     &__content {
+        border-top: 1px solid;
+        border-bottom: 1px solid;
+
         @media (max-width: 790px) {
             padding: 0;
         }
