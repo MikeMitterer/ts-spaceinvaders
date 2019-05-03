@@ -1,5 +1,5 @@
 <template>
-    <div id="game" :currentState="gameState"><canvas>&nbsp;</canvas></div>
+    <div id="game" :currentState="gameState"><canvas></canvas></div>
 </template>
 
 <script lang="ts">

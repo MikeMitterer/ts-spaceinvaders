@@ -27,7 +27,8 @@ html {
 }
 
 *, *:before, *:after {
-  box-sizing: inherit;
+  // border-box for all elements!
+  box-sizing: border-box;
 }
 
 

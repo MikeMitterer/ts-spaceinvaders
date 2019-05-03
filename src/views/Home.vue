@@ -2,7 +2,10 @@ import {KeyCode} from "../core/InputHandler";
 <template>
     <div class="home">
         <div class="game-container" v-bind:class="gameState.toLowerCase()">
-            <SpaceInvaders :gameState="gameState"></SpaceInvaders>
+            <div class="inner-game-container">
+                <SpaceInvaders :gameState="gameState"></SpaceInvaders>
+                <GameStatus></GameStatus>
+            </div>
             <div class="control-panel">
                 <p class="arcade large top status-message__headline">
                     HAVE FUN
@@ -22,7 +25,6 @@ import {KeyCode} from "../core/InputHandler";
                     Yes! You are the hero!
                 </p>
             </div>
-            <GameStatus></GameStatus>
         </div>
     </div>
 </template>

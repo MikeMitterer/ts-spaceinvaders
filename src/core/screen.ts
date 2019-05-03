@@ -72,13 +72,6 @@ export class Screen {
     }
 
     private constructor() {
-        // this.canvas = new HTMLCanvasElement();
-        // this.canvas = document.createElement('canvas');
-        // this.canvas.width = this.width;
-        // this.canvas.height = this.height;
-        //
-        // this.context = validate.notNull(this.canvas.getContext('2d'), () => '2D Context was null!');
-
         const game = validate.notNull(
             this.gameElement,
             () => 'Could not find an element with id="game" - Strange!',
@@ -109,6 +102,7 @@ export class Screen {
         }, 300);
 
         this.resizeCallback();
+
         this.context = this.contextFromCanvas(this.canvas);
         this.canvas.width = this._width;
         this.canvas.height = this._height;

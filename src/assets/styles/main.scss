@@ -18,7 +18,7 @@ $game-container-border-padding: 24px !default;
 
 // 375 x 565
 $game-width: 500px;
-$game-height: 604px;
+$game-height: 600px;
 $game-background-color: rgba(18, 18, 18, 0.58);
 
 @import 'layout';
@@ -26,6 +26,10 @@ $game-background-color: rgba(18, 18, 18, 0.58);
 
 // Only for CSS-debugging
 // @import 'debug';
+
+html {
+    --content-height: calc(var(--vh, 1vh) * 100 - (#{$header-footer-height} * 2));
+}
 
 body {
     background-color: $background-color;
@@ -77,11 +81,13 @@ body {
     &__header {
         background-image: url(../images/static/banner.jpg);
         background-position: left bottom;
+
+        border-bottom: 1px solid #383838;
     }
 
     &__content {
-        border-top: 1px solid;
-        border-bottom: 1px solid;
+        padding: 12px;
+        // padding: 0;
 
         @media (max-width: 790px) {
             padding: 0;
@@ -89,6 +95,7 @@ body {
     }
 
     &__footer {
+        border-top: 1px solid #383838;
         opacity: 0.75;
 
         #app {

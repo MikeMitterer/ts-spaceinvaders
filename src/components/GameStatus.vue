@@ -7,10 +7,10 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator';
-    import gameModule from '../store/modules/GameModule';
+import { Component, Vue } from 'vue-property-decorator';
+import gameModule from '../store/modules/GameModule';
 
-    @Component
+@Component
 export default class GameStatus extends Vue {
     // private readonly logger = loggerFactory.getLogger('<package>');
 
@@ -23,8 +23,12 @@ export default class GameStatus extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 #status {
-    display: inline-grid;
-    align-content: center;
+    display: inline-flex;
+    flex-grow: 0;
+
+    justify-content: flex-start; // ⇾
+    align-content: space-between; // ||
+    align-items: center; // ↓
 
     border-top: 2px solid;
 

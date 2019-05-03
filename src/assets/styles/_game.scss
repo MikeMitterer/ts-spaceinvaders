@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
 
+$background-color: #244ecf !default;
+
 $game-container-width: 774px !default;
 $game-container-height: 682px !default;
 $game-container-border-radius: 5px !default;
@@ -10,12 +12,14 @@ $game-width: 500px !default;
 $game-height: 604px !default;
 $game-background-color: rgba(18, 18, 18, 0.58) !default;
 
+$game-status-height: 30px;
 
 // Predefine some sizes to avoid flickering when
 // Game gets loaded
 .game-container {
-    width: $game-container-width; height: $game-container-height;
-    
+    width: $game-container-width;
+    height: $game-container-height;
+
     #game {
         //display: flex;
         //flex-direction: row;
@@ -27,10 +31,11 @@ $game-background-color: rgba(18, 18, 18, 0.58) !default;
         > canvas {
             // flex-grow: 1;
         }
+
         // width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        
+        // margin-left: auto;
+        // margin-right: auto;
+
         width: $game-width;
         height: $game-height;
     }
@@ -41,7 +46,7 @@ $game-background-color: rgba(18, 18, 18, 0.58) !default;
 // Specified in core/screen.ts
 .game-container {
     user-select: none;
-    
+
     .loading & {
         display: none;
     }
@@ -49,23 +54,31 @@ $game-background-color: rgba(18, 18, 18, 0.58) !default;
     margin-left: auto;
     margin-right: auto;
 
-    display: inline-grid;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start; // ⇾
+    align-content: flex-start; // ||
+    align-items: flex-start; // ↓
 
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto 30px;
+
+    //    display: inline-grid;
+
+    //    grid-template-columns: auto 1fr;
+    //    grid-template-rows: auto 30px;
     // align-items: start;
 
     // Control-Panel becomes a "popup" so we don't
     // need the last column anymore
     @media (max-width: 780px) {
         width: auto;
-        grid-template-columns: auto;
+        // grid-template-columns: auto;
 
-        &.continue {
-            .control-panel {
-                display: none;
-            }
-        }
+        //&.continue {
+        //    .control-panel {
+        //        display: none;
+        //    }
+        //}
 
         &.youwon, &.youlost, &stopped {
             #game, #status {
@@ -88,69 +101,91 @@ $game-background-color: rgba(18, 18, 18, 0.58) !default;
 
     background-color: $game-background-color !important;
 
-    #game {
-        background-color: black;
+    .inner-game-container {
+        margin-left: auto;
+        margin-right: auto;
+        
+        #game {
+            background-color: black;
 
-        //@media (max-width: 550px) {
-        //    height: 100%;
-        //}
+            //@media (max-width: 550px) {
+            //    height: 100%;
+            //}
 
-        > canvas {
+            > canvas {
+            }
         }
+
+        #status {
+            background-color: black;
+
+            width: $game-width;
+            height: $game-status-height;
+
+            // margin-left: auto;
+            // margin-right: auto;
+        }
+
     }
 
-
-
     .control-panel {
+        width: 210px;
+        // max-width: 300px;
+        // min-width: 280px;
         justify-self: center;
 
         margin-left: 16px;
-        @media (max-width: 830px) { padding-top: $game-container-border-padding; }
+        @media (max-width: 830px) {
+            padding-top: $game-container-border-padding;
+        }
 
         // Show control-panel as popup
         @media (max-width: 780px) {
-            min-width: 280px;
+            width: 300px;
+            -webkit-backface-visibility: hidden;
 
-            background-color: #ffffff5c;
+            background-color: rgba(255, 255, 255, 0.3);
             border-radius: 5px;
-            
+
             position: absolute;
             margin-left: auto;
             margin-right: auto;
+
+            // Needed on Chrome for Android, otherwise
+            // popup moves below content
+            top: 0;
             left: 0;
             right: 0;
 
-            max-width: 300px;
             margin-top: 24px;
+
+            z-index: 100;
         }
     }
 
-    #status {
-        background-color: black;
-
-        width: $game-width;
-        margin-left: auto;
-        margin-right: auto;
-    }
 }
 
 // - Media queries ---------------------------------------------------------------------------------
 
 // Device = Desktops
 // Screen = 1281px to higher resolution desktops
-@media (min-width: 1281px) { }
+@media (min-width: 1281px) {
+}
 
 // Device = Laptops, Desktops
 // Screen = B/w 1025px to 1280px
-@media (min-width: 1025px) and (max-width: 1280px) { }
+@media (min-width: 1025px) and (max-width: 1280px) {
+}
 
 // Device = Tablets, Ipads (portrait)
 // Screen = B/w 768px to 1024px
-@media (min-width: 768px) and (max-width: 1024px) { }
+@media (min-width: 768px) and (max-width: 1024px) {
+}
 
 // Device = Tablets, Ipads (landscape)
 // Screen = B/w 768px to 1024px
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) { }
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+}
 
 // Device = Low Resolution Tablets, Mobiles (Landscape)
 // Screen = B/w 481px to 767px
@@ -164,13 +199,57 @@ $game-background-color: rgba(18, 18, 18, 0.58) !default;
 // B/w 320px to 479px
 @media (min-width: 320px) and (max-width: 480px) {
     .game-container {
-        width: 100%;
-        height: 100%;
+        // Should not be necessary but flexbox calculates the height wrong
+        overflow-y: hidden;
 
-        #game, #status {
-            width: 100%;
-            height: 100%;
+        flex-basis: calc(var(--content-height, 100%));
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start; // ⇾
+        align-content: space-between; // ||
+        align-items: flex-start; // ↓
+
+        border-radius: 0;
+        background-color: $background-color;
+        // width: 100%;
+        // height: 100%;
+
+        .inner-game-container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            justify-content: flex-start; // ↓
+            align-content: space-between; // =
+            align-items: flex-start; // ⇾
+
+            flex-grow: 1;
+
+            #game, #status {
+                width: 100%;
+            }
+
+            #game {
+                flex-grow: 0;
+                flex-shrink: 1;
+                // flex-basis: calc(var(--content-height, 100%) - #{$game-status-height} - 10px);
+
+                height: calc(var(--content-height, 100%) - #{$game-status-height});
+                max-height: calc(var(--content-height, 100%) - #{$game-status-height});
+
+                // max-height: calc(var(--content-height, 100%));
+            }
+
+            #status {
+                // flex-grow: 1;
+            }
         }
+
+        .control-panel {
+
+        }
+
     }
 }
 
