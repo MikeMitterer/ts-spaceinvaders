@@ -35,6 +35,7 @@ export class Screen {
 
     private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.core.Screen');
 
+    private readonly game: HTMLElement | null;
     private readonly canvas: HTMLCanvasElement;
     private readonly context: CanvasRenderingContext2D;
 
@@ -71,33 +72,39 @@ export class Screen {
         return { width: this._width, height: this._height };
     }
 
+    public get xPos(): number {
+        return this.game ? this.game.offsetLeft - this.game.scrollLeft + this.game.clientLeft : -1;
+    }
+
     private constructor() {
-        const game = validate.notNull(
+        this.game = validate.notNull(
             this.gameElement,
             () => 'Could not find an element with id="game" - Strange!',
         );
 
         this.canvas = validate.notNull(
-            game.querySelector<HTMLCanvasElement>('canvas'),
+            this.game.querySelector<HTMLCanvasElement>('canvas'),
             () => 'No canvas! Check your template...',
         );
 
-        this.resizeCallback = this.resizeCanvas(game, this.canvas);
+        this.resizeCallback = this.resizeCanvas(this.game, this.canvas);
         // window.removeEventListener('resize', this.resizeCallback);
         // window.addEventListener('resize', this.resizeCallback);
         // window.addEventListener('orientationchange', this.resizeCallback);
 
         let timerID = -1;
         timerID = setInterval(() => {
-            const rect = game.getBoundingClientRect();
+            if (this.game) {
+                const rect = this.game.getBoundingClientRect();
 
-            this.logger.info(`Interval: ${rect.width}, ${rect.height}`);
-            this._width = rect.width;
-            this._height = rect.height;
+                this.logger.info(`Interval: ${rect.width}, ${rect.height}`);
+                this._width = rect.width;
+                this._height = rect.height;
 
-            if (this._width !== 0 && this._height !== 0) {
-                this.resizeCallback();
-                clearInterval(timerID);
+                if (this._width !== 0 && this._height !== 0) {
+                    this.resizeCallback();
+                    clearInterval(timerID);
+                }
             }
         }, 300);
 
@@ -144,7 +151,7 @@ export class Screen {
         return (): void => {
             const rect = game.getBoundingClientRect();
 
-            this.logger.info(`Resize: ${rect.width}, ${rect.height}`);
+            this.logger.info(`Resize: ${rect.width}, ${rect.height} / xPos: ${this.xPos}`);
 
             canvas.width = rect.width;
             canvas.height = rect.height;

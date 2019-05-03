@@ -1,13 +1,14 @@
 import { Direction, FrameHandler } from '@/core/FrameHandler';
 import { InputHandler, KeyCode } from '@/core/InputHandler';
-import { ScreenSize } from '@/core/screen';
+import { Screen } from '@/core/screen';
 import { SpeedGenerator } from '@/core/SpeedGenerator';
 import { SpriteFactory } from '@/core/SpriteFactory';
 
 // prettier-ignore
-export function update(frameHandler: FrameHandler, spriteFactory: SpriteFactory, screenSize: ScreenSize): void {
+export function update(frameHandler: FrameHandler, spriteFactory: SpriteFactory, screen: Screen): void {
     // const logger = loggerFactory.getLogger('mmit.spaceinvaders.app.update');
 
+    const screenSize = screen.size;
     const tankSpeed = SpeedGenerator.getSpeed(2, 7);
 
     const swarmAutoMove = true;
@@ -28,6 +29,15 @@ export function update(frameHandler: FrameHandler, spriteFactory: SpriteFactory,
         tank.moveUp({ speed: tankSpeed });
     } else if (InputHandler.isDown(KeyCode.Down) && tankCanMoveVertically) {
         tank.moveDown({ speed: tankSpeed });
+    } else if (InputHandler.shouldMove() && InputHandler.instance.mouseXPos <= screenSize.width) {
+        const tankX = tank.x + (tank.width / 2);
+        const mouseX = InputHandler.instance.mouseXPos - screen.xPos;
+
+        if (mouseX < tankX - 5) {
+            tank.moveLeft({ speed: tankSpeed });
+        } else if (mouseX > tankX + 5) {
+            tank.moveRight({ speed: tankSpeed });
+        }
     }
 
     tank.x = Math.min(Math.max(tank.x, 0), screenSize.width - tank.width);

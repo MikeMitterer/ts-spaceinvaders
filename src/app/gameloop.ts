@@ -9,7 +9,7 @@ import { Screen } from '@/core/screen';
 import { SpriteFactory } from '@/core/SpriteFactory';
 import gameModule from '../store/modules/GameModule';
 
-const MAX_NUMBER_OF_TANKS = 3;
+const MAX_NUMBER_OF_TANKS = 4;
 
 /**
  * Game-Loop!
@@ -33,7 +33,7 @@ export function run(withState: GameState = GameState.Continue): GameState {
     let requestID = 0;
     const _gameLoop = (state: GameState): void => {
         if (gameModule.gameState === GameState.Continue) {
-            update(frameHandler, spriteFactory, screen.size);
+            update(frameHandler, spriteFactory, screen);
             render(screen, spriteFactory);
         }
 

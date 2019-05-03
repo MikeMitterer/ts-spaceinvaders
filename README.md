@@ -9,6 +9,10 @@ There is also a Dart-Version available - if you want to check it out...
 -   [Dart-Invaders Live](http://spaceinvaders.mikemitterer.at/)
 -   [Dart-Invaders on GitHub](https://github.com/MikeMitterer/dart-space-invaders)
 
+## ToDo
+
+-   Add Manifest ([developers.google.com](https://developers.google.com/web/fundamentals/native-hardware/fullscreen/))
+
 ### License
 
     Copyright 2019 Michael Mitterer (office@mikemitterer.at),

@@ -74,11 +74,11 @@ $game-status-height: 30px;
         width: auto;
         // grid-template-columns: auto;
 
-        //&.continue {
-        //    .control-panel {
-        //        display: none;
-        //    }
-        //}
+        &.continue {
+            .control-panel {
+                display: none;
+            }
+        }
 
         &.youwon, &.youlost, &stopped {
             #game, #status {

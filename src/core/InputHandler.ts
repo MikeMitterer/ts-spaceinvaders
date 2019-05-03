@@ -13,10 +13,12 @@ export enum KeyCode {
 
 type OnStateChangeCallback = () => void;
 type OnKeyboardEventCallback = (event: KeyboardEvent) => void;
+type OnClickEventCallback = (event: MouseEvent) => void;
 
 enum Events {
     KeyUp = 'keyup',
     KeyDown = 'keydown',
+    Click = 'click',
 }
 
 export class InputHandler {
@@ -31,6 +33,14 @@ export class InputHandler {
 
     private onKeyUpCallback?: OnKeyboardEventCallback;
     private onKeyDownCallback?: OnKeyboardEventCallback;
+    private onClickCallback?: OnClickEventCallback;
+
+    /** Simulate move left/right with onClick */
+    private prevClickEvent: number = Date.now();
+    private move = false;
+
+    /** Remember the last mouse x pos */
+    public mouseXPos: number = -1;
 
     /**
      * remember the callbacks - maybe we need it in [[reset]]
@@ -58,9 +68,13 @@ export class InputHandler {
 
         inputHandler.onKeyDownCallback = inputHandler.onKeyDown(onStateChanged);
         inputHandler.onKeyUpCallback = inputHandler.onKeyUp(onStateChanged);
+        inputHandler.onClickCallback = inputHandler.onClick(onStateChanged);
 
         window.addEventListener(Events.KeyDown, inputHandler.onKeyDownCallback);
         window.addEventListener(Events.KeyUp, inputHandler.onKeyUpCallback);
+
+        // Simulate space-bar
+        window.addEventListener(Events.Click, inputHandler.onClickCallback);
 
         return inputHandler;
     }
@@ -71,13 +85,20 @@ export class InputHandler {
     public static reset(): void {
         const inputHandler = InputHandler._instance;
 
-        if (inputHandler && inputHandler.onKeyDownCallback && inputHandler.onKeyUpCallback) {
+        if (
+            inputHandler &&
+            inputHandler.onKeyDownCallback &&
+            inputHandler.onKeyUpCallback &&
+            inputHandler.onClickCallback
+        ) {
             window.removeEventListener(Events.KeyDown, inputHandler.onKeyDownCallback);
             window.removeEventListener(Events.KeyUp, inputHandler.onKeyUpCallback);
+            window.removeEventListener(Events.Click, inputHandler.onClickCallback);
 
             // Just to make sure everything is undefined and can be destroyed by the GC
             inputHandler.onKeyDownCallback = undefined;
             inputHandler.onKeyUpCallback = undefined;
+            inputHandler.onClickCallback = undefined;
         }
         InputHandler._instance = undefined;
     }
@@ -103,6 +124,10 @@ export class InputHandler {
         return false;
     }
 
+    public static shouldMove(): boolean {
+        return InputHandler.instance.move && InputHandler.instance.mouseXPos !== -1;
+    }
+
     private readonly onKeyDown = (onStateChanged: OnStateChangeCallback): OnKeyboardEventCallback => {
         return (event: KeyboardEvent): void => {
             const key = this.stringToKeyCode.get(event.key);
@@ -112,6 +137,7 @@ export class InputHandler {
 
                 this.down.set(key, true);
                 this.pressed.set(key, true);
+                this.move = false;
 
                 onStateChanged();
             }
@@ -126,9 +152,32 @@ export class InputHandler {
 
                 this.down.set(key, false);
                 this.pressed.set(key, false);
+                this.move = false;
 
                 onStateChanged();
             }
+        };
+    };
+
+    private readonly onClick = (onStateChanged: OnStateChangeCallback): OnClickEventCallback => {
+        return (event: MouseEvent): void => {
+            this.mouseXPos = event.pageX;
+
+            // this.logger.info(`X: ${this.mouseXPos}`);
+            const now = Date.now();
+            if (now - this.prevClickEvent < 400) {
+                // Simulate space-bar
+                this.down.set(KeyCode.Space, true);
+                this.pressed.set(KeyCode.Space, true);
+
+                this.move = false;
+            } else {
+                this.move = true;
+            }
+
+            this.prevClickEvent = now;
+
+            onStateChanged();
         };
     };
 }
