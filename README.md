@@ -9,6 +9,8 @@ There is also a Dart-Version available - if you want to check it out...
 -   [Dart-Invaders Live](http://spaceinvaders.mikemitterer.at/)
 -   [Dart-Invaders on GitHub](https://github.com/MikeMitterer/dart-space-invaders)
 
+Compared to the Dart-Version the TS-Version runs much nicer on mobile
+
 ## ToDo
 
 -   Add Manifest ([developers.google.com](https://developers.google.com/web/fundamentals/native-hardware/fullscreen/))
