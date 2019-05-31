@@ -4,14 +4,14 @@
 
 <script lang="ts">
 import { run } from '@/app/gameloop';
-import { loggerFactory } from '@/config/ConfigLog4j';
 import { InputHandler } from '@/core/InputHandler';
 import { Screen } from '@/core/screen';
+import { LoggerFactory } from '@mmit/logging';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component
 export default class SpaceInvaders extends Vue {
-    private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.components.SpaceInvaders');
+    private readonly logger = LoggerFactory.getLogger('mmit.spaceinvaders.components.SpaceInvaders');
 
     private animationTimer: number | undefined;
 

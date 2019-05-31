@@ -35,12 +35,12 @@ import GameStatus from '@/components/GameStatus.vue';
 import SpaceInvaders from '@/components/SpaceInvaders.vue';
 import { GameState } from '@/core/GameState';
 import gameModule from '@/store/modules/GameModule';
-import { loggerFactory } from '@mmit/communication/lib/config/ConfigLog4j';
+import { LoggerFactory } from '@mmit/logging';
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({ components: { GameStatus, ArcadeButton, SpaceInvaders } })
 export default class Home extends Vue {
-    private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.views.Home');
+    private readonly logger = LoggerFactory.getLogger('mmit.spaceinvaders.views.Home');
 
     public onClick(): void {
         gameModule.toggleGameState();

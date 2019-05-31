@@ -1,4 +1,3 @@
-import { loggerFactory } from '@/config/ConfigLog4j';
 import * as validate from '@mmit/validate';
 
 export enum KeyCode {
@@ -22,9 +21,9 @@ enum Events {
 }
 
 export class InputHandler {
-    private static _instance: InputHandler | undefined;
+    // private readonly logger = LoggerFactory.getLogger('mmit.spaceinvaders.core.InputHandler');
 
-    private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.core.InputHandler');
+    private static _instance: InputHandler | undefined;
 
     private readonly down = new Map<KeyCode, boolean>();
     private readonly pressed = new Map<KeyCode, boolean>();

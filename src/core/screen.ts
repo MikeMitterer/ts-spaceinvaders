@@ -7,7 +7,6 @@
  *     init(frameHandler,screensize,spritefactory);
  */
 import { Painter } from '@/core/painter';
-import { loggerFactory } from '@mmit/communication/lib/config/ConfigLog4j';
 import * as validate from '@mmit/validate';
 
 export interface ScreenSize {
@@ -31,9 +30,9 @@ export interface ScreenSize {
  *     }
  */
 export class Screen {
-    private static _screenInstance: Screen | undefined;
+    // private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.core.Screen');
 
-    private readonly logger = loggerFactory.getLogger('mmit.spaceinvaders.core.Screen');
+    private static _screenInstance: Screen | undefined;
 
     private readonly game: HTMLElement | null;
     private readonly canvas: HTMLCanvasElement;
@@ -97,7 +96,7 @@ export class Screen {
             if (this.game) {
                 const rect = this.game.getBoundingClientRect();
 
-                this.logger.info(`Interval: ${rect.width}, ${rect.height}`);
+                // this.logger.info(`Interval: ${rect.width}, ${rect.height}`);
                 this._width = rect.width;
                 this._height = rect.height;
 
@@ -151,7 +150,7 @@ export class Screen {
         return (): void => {
             const rect = game.getBoundingClientRect();
 
-            this.logger.info(`Resize: ${rect.width}, ${rect.height} / xPos: ${this.xPos}`);
+            // this.logger.info(`Resize: ${rect.width}, ${rect.height} / xPos: ${this.xPos}`);
 
             canvas.width = rect.width;
             canvas.height = rect.height;

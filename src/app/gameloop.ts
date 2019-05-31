@@ -2,11 +2,11 @@
 import { init } from '@/app/init';
 import { render } from '@/app/render';
 import { update } from '@/app/update';
-import { loggerFactory } from '@/config/ConfigLog4j';
 import { FrameHandler } from '@/core/FrameHandler';
 import { GameState } from '@/core/GameState';
 import { Screen } from '@/core/screen';
 import { SpriteFactory } from '@/core/SpriteFactory';
+import { LoggerFactory } from '@mmit/logging';
 import gameModule from '../store/modules/GameModule';
 
 const MAX_NUMBER_OF_TANKS = 4;
@@ -18,7 +18,7 @@ const MAX_NUMBER_OF_TANKS = 4;
  * Init, update, render
  */
 export function run(withState: GameState = GameState.Continue): GameState {
-    const logger = loggerFactory.getLogger('mmit.spaceinvaders.app.gameloop.run');
+    const logger = LoggerFactory.getLogger('mmit.spaceinvaders.app.gameloop.run');
 
     const frameHandler = new FrameHandler();
     const spriteFactory = SpriteFactory.getInstance();

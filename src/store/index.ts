@@ -1,10 +1,10 @@
-import { loggerFactory } from '@/config/ConfigLog4j';
+import { LoggerFactory } from '@mmit/logging';
 import Vue from 'vue';
 import Vuex, { ActionContext, ActionTree, MutationTree } from 'vuex';
 
 // import gameModule from './modules/GameModule';
 
-const logger = loggerFactory.getLogger('mmit.spaceinvaders.store');
+const logger = LoggerFactory.getLogger('mmit.spaceinvaders.store');
 
 Vue.use(Vuex);
 
