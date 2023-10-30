@@ -7,7 +7,7 @@ import store from './store';
 Vue.config.productionTip = false;
 
 // prettier-ignore
-new Vue({
+const app = new Vue({
     router,
     store,
 
@@ -20,6 +20,7 @@ new Vue({
     //     });
     // },
 
-    // tslint:disable-next-line:typedef
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     render: (h) => h(App),
-}).$mount('#app');
+})
+app.$mount('#app');

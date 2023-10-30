@@ -91,7 +91,7 @@ export class Screen {
         // window.addEventListener('resize', this.resizeCallback);
         // window.addEventListener('orientationchange', this.resizeCallback);
 
-        let timerID = -1;
+        let timerID: number | NodeJS.Timeout = -1;
         timerID = setInterval(() => {
             if (this.game) {
                 const rect = this.game.getBoundingClientRect();
