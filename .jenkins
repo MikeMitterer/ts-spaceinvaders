@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# ------------------------------------------------------------------------------
+# Config-File for Jenkins pushTrigger automatisation
+#
+# In der Jenkins-Konfiguration muss 'Builds von außerhalb starten' aktiv sein!
+#
+# ------------------------------------------------------------------------------
+
+# https://jenkins.int.mikemitterer.at:2083/job/[Full Job NAME], e.g. Scripts/job/Utils
+# Guessed JOB-Name: 'TS-MobiAd/job/SpaceInvaders'
+JENKINS_JOB_NAME="TS-MobiAd/job/SpaceInvaders"
+
+# by default your GIT-Origin
+# (''Builds von außerhalb starten'' / ''Authentifizierungstoken'')
+JENKINS_JOB_TOKEN="ts-spaceinvaders"
+
+# Parameter werden bei manchen builds benötigt
+JENKINS_PARAMS=(
+  "RUN_TESTS=true"
+  "PUBLISH_TO_NMP=false"
+  "REMOVE_NODE_MODULES=false"
+# "delay=1"
+)
+

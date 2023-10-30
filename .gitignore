@@ -1,21 +1,30 @@
-.DS_Store
 node_modules
-/dist
+coverage
 
-# local env files
-.env.local
-.env.*.local
+# IntelliJ/WebStorm
+.idea/*.iml
+.idea/vcs.xml
+.idea/misc.xml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries/*.xml
+.idea/typescript-compiler.xml
 
-# Log files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+tests/*.js
+tests/*.js.mappackage-lock.json
+!tests/jest.setup.*
 
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw*
+package-lock.json
+build/
+dist/
+types/
+!src/types/
+.awcache/
+lib/
+bin/
+src/**/*.js
+yarn-error.log
+doc
+doc/
+.prev.scrmd5
+.scrmd5

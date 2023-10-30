@@ -7,6 +7,8 @@ pipeline {
     environment { SRC_CHANGED=true }
 
     parameters {
+        booleanParam(defaultValue: true, description: 'Run tests', name: 'RUN_TESTS')
+        booleanParam(defaultValue: false, description: 'Deletes node_modules-Folder', name: 'REMOVE_NODE_MODULES')
         booleanParam(defaultValue: false, description: 'Publishes to TestServer', name: 'PUBLISH_TO_TESTSERVER')
     }
     
@@ -15,7 +17,11 @@ pipeline {
             steps {
                 timeout(time: 15, unit: 'MINUTES') {
                     ansiColor('xterm') {
-                        sh 'yarn'
+                        script { if (env.REMOVE_NODE_MODULES) {
+                            sh 'rm -rf node_modules yarn.lock'
+                        }}
+
+                        sh 'yarn clean && yarn install'
 
                         // Repos von Amazon holen
                         // sh 'docker/_ci/run.sh --pull'
@@ -33,6 +39,7 @@ pipeline {
             }
         }
         stage('Test') {
+            when { anyOf { expression { params.RUN_TESTS } }}
             steps {
                 ansiColor('xterm') {
                     sh 'yarn run tc'

@@ -1,0 +1,77 @@
+{
+    "compilerOptions": {
+        "strict": true,
+
+        "target": "es2020",
+        "rootDir": "./",
+
+        // commonjs, amd, system oder es6 (= es2015), esnext
+        // - commonjs ist im Starter-Template von MS
+        //
+        // Beste Variante ist es6 (Vue esnext)
+        // Mehr: http://www.geekabyte.io/2018/12/understanding-javascript-modules-as.html
+        "module": "esnext",
+        "moduleResolution": "node",
+
+        "sourceMap": true,
+
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "noEmitOnError": true,
+        "strictNullChecks": true,
+        "preserveConstEnums": true,
+        "removeComments": false,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+
+        // Dient zum Importieren von json-Files
+        // In der "include"-Section müssen auch die *.json-Files
+        // eingebunden werden
+        "resolveJsonModule": true,
+
+        "esModuleInterop": true,
+
+        "jsx": "preserve",
+        "importHelpers": true,
+
+        "baseUrl": ".",
+
+        // types werden über die tsconfig.local.json geladen
+        "types": [
+            "node",
+            "jest",
+            "jest-extended",
+        ],
+
+        "paths": {
+            "@/*": ["src/*"]
+        },
+        "lib": [
+            "esnext",
+            "dom",
+            //  error TS2488: Type 'FileList | never[]' must have a '[Symbol.iterator]()' method that returns an iterator.
+            "dom.iterable",
+            "scripthost"
+        ]
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue",
+        "tests/**/*.ts",
+        "tests/**/*.tsx",
+        
+        // Damit werden die images erkannt
+        "src/browser/**/*.ts",
+        "src/site/images/typings.d.ts",
+        "src/site/images",
+
+        // Muss auch in tsconfig.lib.json definiert sein!
+        // Damit funktioniert z.B. 'const conf: MobiAdApp.Config' ohne import
+        "src/types/*.d.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@mmit/spaceinvaders",
+  "description": "Simple Space-Invader-Clone",
+  "version": "0.1.9",
+  "from": "2023-10-30T15:53:27+0100",
+  "env": {
+    "environment": "dev",
+    "filename": ".env",
+    "authHost": "undefined"
+  }
+}

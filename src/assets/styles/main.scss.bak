@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');
+
+@import '_normalize.css';
+@import 'reset';
+
+$background-color: #244ecf;
+$header-color: #2657ca;
+$footer-color: #000e2d;
+
+$block-color: rgba(#6844b7, 0.1);
+$header-footer-height: 50px;
+$header-footer-padding: 10px;
+
+$game-container-width: 774px;
+$game-container-height: 682px;
+$game-container-border-radius: 5px !default;
+$game-container-border-padding: 24px !default;
+
+// 375 x 565
+$game-width: 500px;
+$game-height: 600px;
+$game-background-color: rgba(18, 18, 18, 0.58);
+
+@import 'layout';
+@import 'game';
+
+// Only for CSS-debugging
+// @import 'debug';
+
+html {
+    --content-height: calc(var(--vh, 1vh) * 100 - (#{$header-footer-height} * 2));
+}
+
+body {
+    background-color: $background-color;
+    background-image: url('../images/static/bottom.jpg');
+    background-position: left bottom;
+    background-repeat: repeat-x;
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+
+    .ribbon {
+        position: absolute;
+
+        align-self: stretch;
+        flex-shrink: 0;
+        flex-grow: 1;
+        z-index: -1;
+
+        width: 100%;
+        height: 40vh;
+        left: 0;
+        right: 0;
+
+        background-color: #410601;
+    }
+
+    .about-container,
+    .about-container a {
+        color: white;
+        text-decoration: none;
+    }
+    .about-container {
+        margin-left: auto;
+        margin-right: auto;
+
+        width: $game-container-width;
+        // height: $game-container-height;
+
+        border-radius: $game-container-border-radius;
+        padding: $game-container-border-padding;
+        background-color: $game-background-color !important;
+    }
+}
+
+.layout {
+    &__header {
+        background-image: url(../images/static/banner.jpg);
+        background-position: left bottom;
+
+        border-bottom: 1px solid #383838;
+    }
+
+    &__content {
+        padding: 12px;
+        // padding: 0;
+
+        @media (max-width: 790px) {
+            padding: 0;
+        }
+    }
+
+    &__footer {
+        border-top: 1px solid #383838;
+        opacity: 0.75;
+
+        #app {
+            color: green;
+            min-width: 90px;
+            display: inline-block;
+
+            body.loading & {
+                color: initial;
+            }
+        }
+    }
+}

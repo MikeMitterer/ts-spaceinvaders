@@ -1,41 +1,22 @@
+// -------------------------------------------------------------------------------------------------
+// Die .single-Version überschreibt z.B. die Types die für das jeweilige Projekt benötigt werden.
+//
+// Weitere Infos:
+//    https://marcobotto.com/blog/compiling-and-bundling-typescript-libraries-with-webpack/
+//    https://www.typescriptlang.org/docs/handbook/compiler-options.html
+//
 {
-    "compilerOptions": {
-        "strict": true,
-        // "incremental": true,
+    "extends": "./tsconfig.single.json",
 
-        "target": "es6",
-        "module": "esnext",
-        "jsx": "preserve",
-
-        "importHelpers": true,
-        "moduleResolution": "node",
-        "experimentalDecorators": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "noImplicitReturns": true,
-        "sourceMap": true,
-        "baseUrl": ".",
-        "types": ["webpack-env", "jest"],
-        "paths": {
-            "@/*": ["src/*"]
-        },
-        "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
-        "plugins": [
-            {
-                "name": "typescript-tslint-plugin"
-            }
-        ]
-    },
-    "include": [
-        "src/**/*.ts",
-        "src/**/*.tsx",
-        "src/**/*.vue",
-        "tests/**/*.ts",
-        "tests/**/*.tsx",
-        // Damit werden die images erkannt
-        "src/browser/**/*.ts",
-        "src/site/images/typings.d.ts",
-        "src/site/images"
-    ],
-    "exclude": ["node_modules"]
+//    "compilerOptions": {
+//        // If types is specified, only packages listed will be included.
+//        //      Mehr: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#types-typeroots-and-types
+//         "types": [
+//             "node",
+//             "jest",
+//             "jest-extended",
+//             "vuetify",
+//             "vuetify2-component-types",
+//         ]
+//    },
 }
