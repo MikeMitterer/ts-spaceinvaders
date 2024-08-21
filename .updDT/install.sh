@@ -4,7 +4,7 @@
 #' ------------------------------------------------------------------------------
 
 # DEV_LOCAL muss in .bashrc gesetzt werden. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-if [ -z ${DEV_BASH+x} ]; then echo "Var 'DEV_BASH' nicht gesetzt!"; exit 1; fi
+if [ -z ${BASH_LIBS+x} ]; then echo "Var 'BASH_LIBS' nicht gesetzt!"; exit 1; fi
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Abbruch bei Problemen (https://goo.gl/hEEJCj)
@@ -25,8 +25,8 @@ if [ -z ${DEV_BASH+x} ]; then echo "Var 'DEV_BASH' nicht gesetzt!"; exit 1; fi
 #   Hier sind z.B. Farben, generell globale VARs und Funktionen definiert
 #
 
-if [[ "${__TOOLS_LIB__:=""}" == "" ]]; then . "${DEV_BASH}/tools.lib.sh"; fi
-if [[ "${__APPS_LIB__:=""}" == "" ]]; then . "${DEV_BASH}/apps.lib.sh"; fi
+if [[ "${__TOOLS_LIB__:=""}" == "" ]]; then . "${BASH_LIBS}/tools.lib.sh"; fi
+if [[ "${__APPS_LIB__:=""}" == "" ]]; then . "${BASH_LIBS}/apps.lib.sh"; fi
 
 #------------------------------------------------------------------------------
 # BASIS
